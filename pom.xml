@@ -54,6 +54,9 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+		<!-- pre-releases package name -->
+		<bintray.package>holon-datastore-jpa-querydsl</bintray.package>
+
 		<!-- Holon JPA -->
 		<holon.jpa.version>5.0.0-SNAPSHOT</holon.jpa.version>
 
