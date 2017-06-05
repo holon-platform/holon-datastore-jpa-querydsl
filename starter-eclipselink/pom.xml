@@ -1,0 +1,61 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.holon-platform.jpa</groupId>
+		<artifactId>holon-datastore-jpa-querydsl-root</artifactId>
+		<version>5.0.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>holon-starter-eclipselink-querydsl</artifactId>
+	<packaging>jar</packaging>
+
+	<name>${project.groupId}:${project.artifactId}</name>
+	<description>Holon Spring Boot JPA starter using EclipseLink, HikariCP datasource and QueryDSL</description>
+
+	<url>https://holon-platform.com</url>
+
+	<dependencies>
+
+		<!-- Holon JPA stater -->
+		<dependency>
+			<groupId>com.holon-platform.jpa</groupId>
+			<artifactId>holon-starter-eclipselink</artifactId>
+			<version>${holon.jpa.version}</version>
+		</dependency>
+
+		<!-- Holon JPA QueryDsl integration -->
+		<dependency>
+			<groupId>com.holon-platform.jpa</groupId>
+			<artifactId>holon-datastore-jpa-querydsl</artifactId>
+			<version>${holon.jpa.version}</version>
+		</dependency>
+
+		<!-- QueryDSL -->
+		<dependency>
+			<groupId>com.querydsl</groupId>
+			<artifactId>querydsl-jpa</artifactId>
+			<version>${querydsl.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.querydsl</groupId>
+			<artifactId>querydsl-apt</artifactId>
+			<version>${querydsl.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+	</dependencies>
+
+</project>

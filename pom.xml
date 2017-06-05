@@ -1,0 +1,151 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.holon-platform</groupId>
+		<artifactId>parent</artifactId>
+		<version>1.0.0</version>
+	</parent>
+
+	<groupId>com.holon-platform.jpa</groupId>
+	<artifactId>holon-datastore-jpa-querydsl-root</artifactId>
+	<version>5.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>${project.groupId}:${project.artifactId}</name>
+	<description>Holon JPA Datastore QueryDSL integration root pom</description>
+
+	<url>https://holon-platform.com</url>
+
+	<organization>
+		<name>Holon TDCN</name>
+		<url>https://holon-platform.com</url>
+	</organization>
+
+	<licenses>
+		<license>
+			<name>Apache License Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<name>Holon development team</name>
+			<email>dev@holon-platform.com</email>
+			<organization>Holon TDCN</organization>
+			<organizationUrl>https://holon-platform.com</organizationUrl>
+		</developer>
+	</developers>
+
+	<issueManagement>
+		<url>https://github.com/holon-platform/holon-datastore-jpa-querydsl/issues</url>
+		<system>GitHub Issues</system>
+	</issueManagement>
+
+	<scm>
+		<connection>scm:git:https://github.com/holon-platform/holon-datastore-jpa-querydsl.git</connection>
+		<url>https://github.com/holon-platform/holon-datastore-jpa-querydsl</url>
+		<developerConnection>scm:git:https://github.com/holon-platform/holon-datastore-jpa-querydsl.git</developerConnection>
+	</scm>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<!-- Holon JPA -->
+		<holon.jpa.version>5.0.0-SNAPSHOT</holon.jpa.version>
+
+		<!-- QueryDSL -->
+		<querydsl.version>4.1.4</querydsl.version>
+
+		<!-- JPA -->
+		<hibernate.jpa.api.version>1.0.0.Final</hibernate.jpa.api.version>
+
+		<!-- Test: H2 -->
+		<h2.version>1.4.193</h2.version>
+		<!-- Test: HikariCP -->
+		<hikaricp.version>2.6.0</hikaricp.version>
+		<!-- Test: Hibernate -->
+		<hibernate.version>5.2.6.Final</hibernate.version>
+		<!-- Test: Eclipselink -->
+		<eclipselink.version>2.6.4</eclipselink.version>
+		<!-- Test: Spring -->
+		<spring.version>4.3.8.RELEASE</spring.version>
+		<!-- Test: slf4j -->
+		<slf4j.version>1.7.22</slf4j.version>
+
+	</properties>
+
+	<modules>
+		<module>core</module>
+		<module>starter-hibernate</module>
+		<module>starter-eclipselink</module>
+		<module>bom</module>
+		<module>documentation</module>
+	</modules>
+
+	<!-- Javadocs generation and aggregation -->
+	<profiles>
+		<profile>
+			<id>apidocs</id>
+			<build>
+				<plugins>
+					<!-- javadoc -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>module-javadocs</id>
+								<phase>prepare-package</phase>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+								<configuration>
+									<verbose>false</verbose>
+								</configuration>
+							</execution>
+							<execution>
+								<id>aggregate</id>
+								<inherited>false</inherited>
+								<phase>prepare-package</phase>
+								<goals>
+									<goal>aggregate</goal>
+								</goals>
+								<configuration>
+									<show>public</show>
+									<excludePackageNames>*.internal.*;*.examples.*</excludePackageNames>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<!-- Assembly -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-assembly-plugin</artifactId>
+						<configuration>
+							<appendAssemblyId>false</appendAssemblyId>
+							<finalName>${project.artifactId}-${project.version}</finalName>
+							<descriptors>
+								<descriptor>${project.basedir}/javadocs-assembly.xml</descriptor>
+							</descriptors>
+						</configuration>
+						<executions>
+							<execution>
+								<id>assembly-docs</id>
+								<inherited>false</inherited>
+								<phase>package</phase>
+								<goals>
+									<goal>single</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+</project>
