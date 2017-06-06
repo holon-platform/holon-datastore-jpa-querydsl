@@ -21,7 +21,7 @@
 		<!-- Holon JPA stater -->
 		<dependency>
 			<groupId>com.holon-platform.jpa</groupId>
-			<artifactId>holon-starter-eclipselink</artifactId>
+			<artifactId>holon-starter-jpa-eclipselink</artifactId>
 			<version>${holon.jpa.version}</version>
 		</dependency>
 
