@@ -22,7 +22,7 @@ import javax.persistence.LockModeType;
 import com.holonplatform.core.internal.utils.ObjectUtils;
 import com.holonplatform.core.query.Query.QueryBuildException;
 import com.holonplatform.core.query.QueryConfiguration;
-import com.holonplatform.datastore.jpa.JpaConfigProperties;
+import com.holonplatform.datastore.jpa.JpaDatastore;
 import com.holonplatform.datastore.jpa.JpaQueryHint;
 import com.holonplatform.datastore.jpa.internal.querydsl.expressions.OrderSpecifierExpression;
 import com.holonplatform.datastore.jpa.internal.querydsl.expressions.PredicateExpression;
@@ -108,7 +108,7 @@ public final class QueryDSLUtils implements Serializable {
 		if (query instanceof AbstractJPAQuery) {
 			configuration.getParameter(JpaQueryHint.QUERY_PARAMETER_HINT, JpaQueryHint.class)
 					.ifPresent(p -> ((AbstractJPAQuery) query).setHint(p.getName(), p.getValue()));
-			configuration.getParameter(JpaConfigProperties.QUERY_PARAMETER_LOCK_MODE, LockModeType.class)
+			configuration.getParameter(JpaDatastore.QUERY_PARAMETER_LOCK_MODE, LockModeType.class)
 					.ifPresent(p -> ((AbstractJPAQuery) query).setLockMode(p));
 		}
 	}
