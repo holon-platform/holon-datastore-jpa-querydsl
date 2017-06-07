@@ -1,7 +1,10 @@
 = Holon JPA Datastore QueryDSL integration
 :revnumber: {project-version}
-
-Todo documentation.
+:apidir: ../../api/holon-datastore-jpa-querydsl
+:linkattrs:
+:sectnums:
+:toc: left
+:toclevels: 3
 
 == Introduction
 
