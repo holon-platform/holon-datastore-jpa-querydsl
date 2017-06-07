@@ -69,9 +69,9 @@
 		<!-- Test: H2 -->
 		<h2.version>1.4.193</h2.version>
 		<!-- Test: HikariCP -->
-		<hikaricp.version>2.6.0</hikaricp.version>
+		<hikaricp.version>2.6.2</hikaricp.version>
 		<!-- Test: Hibernate -->
-		<hibernate.version>5.2.6.Final</hibernate.version>
+		<hibernate.version>5.2.10.Final</hibernate.version>
 		<!-- Test: Eclipselink -->
 		<eclipselink.version>2.6.4</eclipselink.version>
 		<!-- Test: Spring -->
