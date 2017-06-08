@@ -28,12 +28,12 @@
 			<!-- Spring boot starters -->
 			<dependency>
 				<groupId>com.holon-platform.jpa</groupId>
-				<artifactId>holon-starter-hibernate-querydsl</artifactId>
+				<artifactId>holon-starter-jpa-querydsl-hibernate</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.holon-platform.jpa</groupId>
-				<artifactId>holon-starter-eclipselink-querydsl</artifactId>
+				<artifactId>holon-starter-jpa-querydsl-eclipselink</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 

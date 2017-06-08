@@ -71,6 +71,30 @@ include::{examplesdir}/com/holonplatform/datastore/jpa/querydsl/examples/Example
 <2> Create a `PathProperty` using standard `create` method, providing property name and type
 <3> Create and execute a QueryDSL `JpaQuery`, mixing QueryDSL expressions and standard `PathProperty`s
 
+== Spring Boot starters
+
+The following _starter_ artifacts are available to provide a quick project configuration setup using Maven dependency system:
+
+*1.* *JPA Datastore with QueryDSL integration starter using Hibernate* provides the dependencies to the Holon JPA Datastore Spring Boot and QueryDSL integration artifacts, in addition to default Holon _core_ Spring Boot starters (see the documentation for further information) and base Spring Boot starter (`spring-boot-starter`). Futhermore, this starter provides the *Hibernate ORM* and the *HikariCP* DataSource dependencies.
+
+_Maven coordinates_:
+[source, xml, subs="attributes+"]
+----
+<groupId>com.holon-platform.jpa</groupId>
+<artifactId>holon-starter-jpa-querydsl-hibernate</artifactId>
+<version>{revnumber}</version>
+----
+
+*2.* *JPA Datastore with QueryDSL integration starter using Eclipselink* provides the dependencies to the Holon JPA Datastore Spring Boot and QueryDSL integration artifacts, in addition to default Holon _core_ Spring Boot starters (see the documentation for further information) and base Spring Boot starter (`spring-boot-starter`). Futhermore, this starter provides the *Eclipselink ORM* and the *HikariCP* DataSource dependencies.
+
+_Maven coordinates_:
+[source, xml, subs="attributes+"]
+----
+<groupId>com.holon-platform.jpa</groupId>
+<artifactId>holon-starter-jpa-querydsl-eclipselink</artifactId>
+<version>{revnumber}</version>
+----
+
 == Maven BOM
 
 A Maven _Bill of materials_ (BOM) artifact which provides all dependencies for the JPA Datastore QueryDSL integration module is available:
