@@ -64,6 +64,28 @@
 			<artifactId>holon-datastore-jpa-querydsl</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		
+		<!-- Optional QueryDSL -->
+		<dependency>
+			<groupId>com.querydsl</groupId>
+			<artifactId>querydsl-jpa</artifactId>
+			<version>${querydsl.version}</version>
+			<optional>true</optional>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		
+		<!-- JPA 2.1 API -->
+		<dependency>
+			<groupId>org.hibernate.javax.persistence</groupId>
+			<artifactId>hibernate-jpa-2.1-api</artifactId>
+			<version>${hibernate.jpa.api.version}</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 
 </project>

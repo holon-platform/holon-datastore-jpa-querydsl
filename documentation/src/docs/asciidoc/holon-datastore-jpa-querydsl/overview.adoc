@@ -8,4 +8,84 @@
 
 == Introduction
 
-The introduction goes here.
+This module provides a set of link:http://www.querydsl.com[QueryDSL] integration features for the link:../../holon-datastore-jpa/overview.html[JPA Datastore] module.
+
+IMPORTANT: The required QueryDSL version is *4.0.0* or higher.
+
+NOTE: You must provide the QueryDSL artifacts dependencies in classpath, since they are not provided by this module.
+
+_Maven coordinates_:
+[source, xml, subs="attributes+"]
+----
+<groupId>com.holon-platform.jpa</groupId>
+<artifactId>holon-datastore-jpa-querydsl</artifactId>
+<version>{revnumber}</version>
+----
+
+== Data targets
+
+The link:{apidir}/com/holonplatform/datastore/jpa/querydsl/QueryDslTarget.html[QueryDslTarget^] interface can be used to create a link:../../holon-core/core.html#DataTarget[DataTarget] using a QueryDSL `EntityPath`, which represents a JPA _entity_ root path.
+
+[source, java]
+----
+include::{examplesdir}/com/holonplatform/datastore/jpa/querydsl/examples/ExampleJpaQueryDsl.java[tag=target,indent=0]
+----
+<1> Create a `DataTarget` using the QueryDSL `EntityPath` for the JPA `Test` _entity_ class
+<2> Use the target with a `Datastore`
+
+== Properties
+
+The link:{apidir}/com/holonplatform/datastore/jpa/querydsl/QueryDslProperty.html[QueryDslProperty^] interface can be used to create a `PathProperty` from a QueryDSL `Path`. The `of(Path<T> path)` method returns a builder which can be used to setup property configuration and attributes and automatically set the root `EntityPath` as parent property path.
+
+[source, java]
+----
+include::{examplesdir}/com/holonplatform/datastore/jpa/querydsl/examples/ExampleJpaQueryDsl.java[tag=property,indent=0]
+----
+<1> Create a `PathProperty` using the QueryDSL `Path` of the JPA `Test` _entity_ class `id` attribute of type `Long`
+<2> Create a `PathProperty` using the QueryDSL `Path` of the JPA `Test` _entity_ class `name` attribute of type `String`
+<3> Use the created properties within a `PropertyBox` in a Datastore operation
+
+== QueryDSL JPA query Commodity
+
+The QueryDSL JPA integration module automatically registers the link:{apidir}/com/holonplatform/datastore/jpa/querydsl/QueryDsl.html[QueryDsl^] JPA Datastore *commodity*, which provides a set of methods to build QueryDSL *queries* and *bulk* operation executors.
+
+To obtain the _commodity_ the standard Datastore `create(...)` method can be used:
+
+[source, java]
+----
+include::{examplesdir}/com/holonplatform/datastore/jpa/querydsl/examples/ExampleJpaQueryDsl.java[tag=commodity,indent=0]
+----
+<1> Create a `QueryDsl` commodity
+<2> Obtain a query
+<3> Obtain a query setting the from clause
+<4> Configure and execute a bulk update
+<5> Configure and execute a bulk delete
+
+The link:{apidir}/com/holonplatform/datastore/jpa/querydsl/JpaQuery.html[JpaQuery^] class is an extension of the default QueryDSL JPA query and allows to mix QueryDSL expressions and predicates with standard platform query expressions, such as `QueryFilter`, `QuerySort` and `QueryAggregation`.
+
+[source, java]
+----
+include::{examplesdir}/com/holonplatform/datastore/jpa/querydsl/examples/ExampleJpaQueryDsl.java[tag=query,indent=0]
+----
+<1> Create a `PathProperty` using a QueryDSL `Path`
+<2> Create a `PathProperty` using standard `create` method, providing property name and type
+<3> Create and execute a QueryDSL `JpaQuery`, mixing QueryDSL expressions and standard `PathProperty`s
+
+== Maven BOM
+
+A Maven _Bill of materials_ (BOM) artifact which provides all dependencies for the JPA Datastore QueryDSL integration module is available:
+
+_Maven coordinates_:
+[source, xml, subs="attributes+"]
+----
+<groupId>com.holon-platform.jpa</groupId>
+<artifactId>holon-datastore-jpa-querydsl-bom</artifactId>
+<version>{revnumber}</version>
+----
+
+== Loggers
+
+By default, the Holon platform uses the https://www.slf4j.org[SLF4J^] API for logging. The use of SLF4J is optional: it is enabled when the presence of SLF4J is detected in the classpath. Otherwise, logging will fall back to JUL (`java.util.logging`).
+
+The logger name for the *JPA Datastore QueryDSL integration* module is `com.holonplatform.datastore.jpa`.
+
