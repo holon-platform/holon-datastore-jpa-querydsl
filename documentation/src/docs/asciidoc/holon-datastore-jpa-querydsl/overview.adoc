@@ -3,6 +3,7 @@
 :apidir: ../../api/holon-datastore-jpa-querydsl
 :linkattrs:
 :sectnums:
+:nofooter:
 :toc: left
 :toclevels: 3
 
@@ -117,3 +118,12 @@ By default, the Holon platform uses the https://www.slf4j.org[SLF4J^] API for lo
 
 The logger name for the *JPA Datastore QueryDSL integration* module is `com.holonplatform.datastore.jpa`.
 
+== System requirements
+
+=== Java
+
+The Holon Platform JPA Datastore QueryDSL module requires https://www.java.com[Java] *8* or higher.
+
+=== QueryDSL
+
+https://github.com/querydsl/querydsl/tree/master/querydsl-jpa[QueryDSL JPA] version *4.x* is required and must be available in classpath to use the JPA Datastore QueryDSL module.
