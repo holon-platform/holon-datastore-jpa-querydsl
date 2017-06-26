@@ -27,6 +27,35 @@ _Maven coordinates_:
 <version>{revnumber}</version>
 ----
 
+== Obtaining the artifacts
+
+The Holon Platform uses https://maven.apache.org[Maven^] for projects build and configuration. All the platform artifacts are published in the *Maven Central Repository*, so there is no need to explicitly declare additional repositories in your project `pom` file.
+
+A *BOM (Bill Of Materials)* `pom` is provided to import the available dependencies for a specific version in your projects. 
+
+The BOM can be imported in a Maven project in the following way:
+
+[source, xml, subs="verbatim,quotes,attributes+"]
+----
+<dependencyManagement>
+	<dependencies>
+		<dependency>
+			<groupId>com.holon-platform.jpa</groupId>
+			<artifactId>holon-datastore-jpa-querydsl-bom</artifactId>
+			<version>{revnumber}</version>
+			*<type>pom</type>*
+			*<scope>import</scope>*
+		</dependency>
+	</dependencies>
+</dependencyManagement>
+----
+
+=== Using the Platform BOM
+
+The Holon Platform provides an *overall Maven BOM (Bill of Materials)* to easily obtain all the available platform artifacts.
+
+See link:index.html#obtain-the-platform-artifacts[Obtain the platform artifacts] for details.
+
 == Data targets
 
 The link:{apidir}/com/holonplatform/datastore/jpa/querydsl/QueryDslTarget.html[QueryDslTarget^] interface can be used to create a link:holon-core.html#DataTarget[DataTarget] using a QueryDSL `EntityPath`, which represents a JPA _entity_ root path.
@@ -97,18 +126,6 @@ _Maven coordinates_:
 ----
 <groupId>com.holon-platform.jpa</groupId>
 <artifactId>holon-starter-jpa-querydsl-eclipselink</artifactId>
-<version>{revnumber}</version>
-----
-
-== Maven BOM
-
-A Maven _Bill of materials_ (BOM) artifact which provides all dependencies for the JPA Datastore QueryDSL integration module is available:
-
-_Maven coordinates_:
-[source, xml, subs="attributes+"]
-----
-<groupId>com.holon-platform.jpa</groupId>
-<artifactId>holon-datastore-jpa-querydsl-bom</artifactId>
 <version>{revnumber}</version>
 ----
 
