@@ -29,7 +29,7 @@ _Maven coordinates_:
 
 == Data targets
 
-The link:{apidir}/com/holonplatform/datastore/jpa/querydsl/QueryDslTarget.html[QueryDslTarget^] interface can be used to create a link:../../holon-core/core.html#DataTarget[DataTarget] using a QueryDSL `EntityPath`, which represents a JPA _entity_ root path.
+The link:{apidir}/com/holonplatform/datastore/jpa/querydsl/QueryDslTarget.html[QueryDslTarget^] interface can be used to create a link:holon-core.html#DataTarget[DataTarget] using a QueryDSL `EntityPath`, which represents a JPA _entity_ root path.
 
 [source, java]
 ----
