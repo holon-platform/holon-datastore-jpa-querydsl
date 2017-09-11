@@ -1,6 +1,6 @@
 # Holon Platform JPA Datastore - QueryDSL integration
 
-This module provides set of [QueryDSL](http://www.querydsl.com) integration features for the [Holon Platform JPA Datastore module](https://github.com/holon-platform/holon-datastore-jpa).
+This module provides a set of [QueryDSL](http://www.querydsl.com) integration features for the [Holon Platform JPA Datastore module](https://github.com/holon-platform/holon-datastore-jpa).
 
 The main feature provided is the `QueryDsl` Datastore _commodity_, automatically registered with the JPA Datastore when this module is available in classpath.
 
