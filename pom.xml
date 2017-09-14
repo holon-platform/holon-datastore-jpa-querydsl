@@ -67,17 +67,17 @@
 		<hibernate.jpa.api.version>1.0.0.Final</hibernate.jpa.api.version>
 
 		<!-- Test: H2 -->
-		<h2.version>1.4.193</h2.version>
+		<h2.version>1.4.196</h2.version>
 		<!-- Test: HikariCP -->
-		<hikaricp.version>2.6.2</hikaricp.version>
+		<hikaricp.version>2.7.1</hikaricp.version>
 		<!-- Test: Hibernate -->
-		<hibernate.version>5.2.10.Final</hibernate.version>
+		<hibernate.version>5.2.11.Final</hibernate.version>
 		<!-- Test: Eclipselink -->
-		<eclipselink.version>2.6.4</eclipselink.version>
+		<eclipselink.version>2.7.0</eclipselink.version>
 		<!-- Test: Spring -->
-		<spring.version>4.3.8.RELEASE</spring.version>
+		<spring.version>4.3.11.RELEASE</spring.version>
 		<!-- Test: slf4j -->
-		<slf4j.version>1.7.22</slf4j.version>
+		<slf4j.version>1.7.25</slf4j.version>
 
 	</properties>
 
