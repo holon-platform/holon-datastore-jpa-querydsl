@@ -20,7 +20,7 @@ query.fetch();
 
 Furthermore, this module provides integration classes to use [QueryDSL](http://www.querydsl.com) expressions as Datastore expressions (such as `EntityPath` and `Path` QueryDSL types) and some __Spring Boot__ _starters_ for QueryDSL integration auto-configuration.
 
-See the [module reference guide](https://holon-platform.com/docs/current/reference/holon-datastore-jpa-querydsl.html) for detailed information.  
+See the [module reference guide](https://docs.holon-platform.com/current/reference/holon-datastore-jpa-querydsl.html) for detailed information.  
 
 ## Code structure
 
@@ -86,7 +86,7 @@ You can build the sources using Maven (version 3.3.x or above is recommended) li
 
 ## Getting help
 
-* Check the [platform documentation](https://holon-platform.com/docs/current/reference) or the specific [module documentation](https://holon-platform.com/docs/current/reference/holon-datastore-jpa-querydsl.html).
+* Check the [platform documentation](https://docs.holon-platform.com/current/reference) or the specific [module documentation](https://docs.holon-platform.com/current/reference/holon-datastore-jpa-querydsl.html).
 
 * Ask a question on [Stack Overflow](http://stackoverflow.com). We monitor the [`holon-platform`](http://stackoverflow.com/tags/holon-platform) tag.
 
