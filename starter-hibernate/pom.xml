@@ -29,7 +29,7 @@
 		<dependency>
 			<groupId>com.holon-platform.jpa</groupId>
 			<artifactId>holon-datastore-jpa-querydsl</artifactId>
-			<version>${holon.jpa.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 
 		<!-- QueryDSL -->
