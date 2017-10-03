@@ -69,7 +69,7 @@
 		<!-- Test: H2 -->
 		<h2.version>1.4.196</h2.version>
 		<!-- Test: HikariCP -->
-		<hikaricp.version>2.7.1</hikaricp.version>
+		<hikaricp.version>2.7.2</hikaricp.version>
 		<!-- Test: Hibernate -->
 		<hibernate.version>5.2.11.Final</hibernate.version>
 		<!-- Test: Eclipselink -->
