@@ -50,7 +50,7 @@ _Maven BOM:_
     <dependency>
         <groupId>com.holon-platform.jpa</groupId>
         <artifactId>holon-datastore-jpa-querydsl-bom</artifactId>
-        <version>5.0.0</version>
+        <version>5.0.1</version>
         <type>pom</type>
         <scope>import</scope>
     </dependency>
