@@ -23,6 +23,7 @@ import com.holonplatform.core.Expression.InvalidExpressionException;
 import com.holonplatform.core.datastore.relational.RelationalTarget;
 import com.holonplatform.datastore.jpa.JpaTarget;
 import com.holonplatform.datastore.jpa.config.JpaDatastoreExpressionResolver;
+import com.holonplatform.datastore.jpa.jpql.context.JPQLResolutionContext;
 import com.holonplatform.datastore.jpa.querydsl.QueryDslTarget;
 
 /**
@@ -57,13 +58,13 @@ public class QueryDslRelationalTargetResolver
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.holonplatform.core.Expression.ExpressionResolverFunction#resolve(com.holonplatform.core.Expression,
-	 * com.holonplatform.core.ExpressionResolver.ResolutionContext)
+	 * @see com.holonplatform.datastore.jpa.jpql.context.JPQLContextExpressionResolver#resolve(com.holonplatform.core.
+	 * Expression, com.holonplatform.datastore.jpa.jpql.context.JPQLResolutionContext)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public Optional<RelationalTarget> resolve(QueryDslTarget expression,
-			com.holonplatform.core.ExpressionResolver.ResolutionContext context) throws InvalidExpressionException {
+	public Optional<RelationalTarget> resolve(QueryDslTarget expression, JPQLResolutionContext context)
+			throws InvalidExpressionException {
 		// validate
 		expression.validate();
 

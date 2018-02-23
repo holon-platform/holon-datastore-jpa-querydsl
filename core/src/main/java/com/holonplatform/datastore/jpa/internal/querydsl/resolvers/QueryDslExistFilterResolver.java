@@ -20,10 +20,11 @@ import java.util.Optional;
 import javax.annotation.Priority;
 
 import com.holonplatform.core.Expression.InvalidExpressionException;
-import com.holonplatform.core.ExpressionResolver;
 import com.holonplatform.core.internal.datastore.relational.ExistsFilter;
 import com.holonplatform.datastore.jpa.internal.querydsl.expressions.PredicateExpression;
+import com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslContextExpressionResolver;
 import com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslExpression;
+import com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslResolutionContext;
 import com.querydsl.core.support.ExtendedSubQuery;
 import com.querydsl.core.types.Expression;
 
@@ -33,7 +34,8 @@ import com.querydsl.core.types.Expression;
  * @since 5.0.0
  */
 @Priority(Integer.MAX_VALUE - 50)
-public enum QueryDslExistFilterResolver implements ExpressionResolver<ExistsFilter, PredicateExpression> {
+public enum QueryDslExistFilterResolver
+		implements QueryDslContextExpressionResolver<ExistsFilter, PredicateExpression> {
 
 	INSTANCE;
 
@@ -57,21 +59,19 @@ public enum QueryDslExistFilterResolver implements ExpressionResolver<ExistsFilt
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.holonplatform.core.Expression.ExpressionResolverFunction#resolve(com.holonplatform.core.Expression,
-	 * com.holonplatform.core.ExpressionResolver.ResolutionContext)
+	 * @see com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslContextExpressionResolver#resolve(com.
+	 * holonplatform.core.Expression,
+	 * com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslResolutionContext)
 	 */
 	@Override
-	public Optional<PredicateExpression> resolve(ExistsFilter expression, ResolutionContext context)
+	public Optional<PredicateExpression> resolve(ExistsFilter expression, QueryDslResolutionContext context)
 			throws InvalidExpressionException {
 
 		// validate
 		expression.validate();
 
 		// resolve subquery
-		QueryDslExpression<?> subquery = context.resolve(expression.getSubQuery(), QueryDslExpression.class, context)
-				.orElseThrow(() -> new InvalidExpressionException(
-						"Failed to resolve expression [" + expression.getSubQuery() + "]"));
-		subquery.validate();
+		QueryDslExpression<?> subquery = context.resolveOrFail(expression.getSubQuery(), QueryDslExpression.class);
 
 		final Expression<?> subQueryExpression = subquery.getExpression();
 		if (!ExtendedSubQuery.class.isAssignableFrom(subQueryExpression.getClass())) {

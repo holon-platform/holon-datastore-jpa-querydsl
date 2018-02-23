@@ -21,13 +21,12 @@ import java.util.Optional;
 import javax.annotation.Priority;
 
 import com.holonplatform.core.Expression.InvalidExpressionException;
-import com.holonplatform.core.ExpressionResolver;
 import com.holonplatform.core.Path;
 import com.holonplatform.core.datastore.DataTarget;
-import com.holonplatform.core.query.Query.QueryBuildException;
-import com.holonplatform.datastore.jpa.internal.expressions.JpaEntity;
+import com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslContextExpressionResolver;
 import com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslExpression;
 import com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslResolutionContext;
+import com.holonplatform.datastore.jpa.jpql.expression.JpaEntity;
 import com.querydsl.core.JoinExpression;
 import com.querydsl.core.types.EntityPath;
 import com.querydsl.core.types.Expression;
@@ -40,7 +39,7 @@ import com.querydsl.core.types.dsl.PathBuilder;
  */
 @SuppressWarnings("rawtypes")
 @Priority(Integer.MAX_VALUE)
-public enum QueryDslPathResolver implements ExpressionResolver<Path, QueryDslExpression> {
+public enum QueryDslPathResolver implements QueryDslContextExpressionResolver<Path, QueryDslExpression> {
 
 	INSTANCE;
 
@@ -64,38 +63,37 @@ public enum QueryDslPathResolver implements ExpressionResolver<Path, QueryDslExp
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.holonplatform.core.Expression.ExpressionResolverFunction#resolve(com.holonplatform.core.Expression,
-	 * com.holonplatform.core.ExpressionResolver.ResolutionContext)
+	 * @see com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslContextExpressionResolver#resolve(com.
+	 * holonplatform.core.Expression,
+	 * com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslResolutionContext)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
-	public Optional<QueryDslExpression> resolve(Path expression, ResolutionContext context)
+	public Optional<QueryDslExpression> resolve(Path expression, QueryDslResolutionContext context)
 			throws InvalidExpressionException {
 
+		// validate
+		expression.validate();
+
 		// intermediate resolution and validation
-		Path path = context.resolve(expression, Path.class, context).orElse(expression);
+		Path path = context.resolve(expression, Path.class).orElse(expression);
 		path.validate();
 
 		// get root
-		final QueryDslResolutionContext ctx = QueryDslResolutionContext.checkContext(context);
-
-		com.querydsl.core.types.Path<?> root = getParentRootPath(path, ctx).orElse(getQueryRootPath(path, ctx));
+		com.querydsl.core.types.Path<?> root = getParentRootPath(path, context).orElse(getQueryRootPath(path, context));
 
 		// get query path from property
 		final String queryPath = path.getName();
 
-		try {
-			PathBuilder<?> rootPathBuilder = new PathBuilder<>(root.getType(), root.getMetadata());
-			PathBuilder<?> pb = rootPathBuilder.get(queryPath, path.getType());
+		PathBuilder<?> rootPathBuilder = new PathBuilder<>(root.getType(), root.getMetadata());
+		@SuppressWarnings("unchecked")
+		PathBuilder<?> pb = rootPathBuilder.get(queryPath, path.getType());
 
-			if (pb == null) {
-				throw new QueryBuildException("Cannot get a valid PathBuilder for path expression [" + path + "]");
-			}
-
-			return Optional.of(QueryDslExpression.create(pb));
-		} catch (Exception e) {
-			throw new InvalidExpressionException(e);
+		if (pb == null) {
+			throw new InvalidExpressionException("Cannot get a valid PathBuilder for path expression [" + path + "]");
 		}
+
+		return Optional.of(QueryDslExpression.create(pb));
+
 	}
 
 	private static Optional<com.querydsl.core.types.Path<?>> getParentRootPath(Path<?> path,
@@ -106,10 +104,9 @@ public enum QueryDslPathResolver implements ExpressionResolver<Path, QueryDslExp
 
 		if (target.isPresent()) {
 
-			JpaEntity<?> entity = context.resolve(target.get(), JpaEntity.class, context)
+			JpaEntity<?> entity = context.resolve(target.get(), JpaEntity.class)
 					.orElseThrow(() -> new InvalidExpressionException("Failed to resolve target [" + target.get()
 							+ "] declared as parent of path [" + path + "]"));
-			entity.validate();
 
 			QueryDslResolutionContext ctx = context;
 			while (ctx != null) {

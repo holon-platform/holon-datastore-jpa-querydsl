@@ -15,19 +15,11 @@
  */
 package com.holonplatform.datastore.jpa.internal.querydsl;
 
-import java.util.function.Supplier;
-
-import javax.persistence.EntityManager;
-
-import com.holonplatform.core.ExpressionResolver.ExpressionResolverSupport;
-import com.holonplatform.core.internal.utils.ObjectUtils;
-import com.holonplatform.datastore.jpa.querydsl.JpaQuery;
+import com.holonplatform.datastore.jpa.context.JpaOperationContext;
+import com.holonplatform.datastore.jpa.querydsl.JpaDeleteClause;
+import com.holonplatform.datastore.jpa.querydsl.JpaUpdateClause;
 import com.holonplatform.datastore.jpa.querydsl.QueryDsl;
-import com.querydsl.core.dml.DeleteClause;
-import com.querydsl.core.dml.UpdateClause;
 import com.querydsl.core.types.EntityPath;
-import com.querydsl.jpa.impl.JPADeleteClause;
-import com.querydsl.jpa.impl.JPAUpdateClause;
 
 /**
  * Default {@link QueryDsl} commodity implementation.
@@ -38,23 +30,11 @@ public class DefaultQueryDslCommodity implements QueryDsl {
 
 	private static final long serialVersionUID = 4994505016202424457L;
 
-	private final Supplier<EntityManager> entityManagerProvider;
-	private final ExpressionResolverSupport expressionResolversProvider;
+	private final JpaOperationContext operationContext;
 
-	public DefaultQueryDslCommodity(Supplier<EntityManager> entityManagerProvider,
-			ExpressionResolverSupport expressionResolversProvider) {
+	public DefaultQueryDslCommodity(JpaOperationContext operationContext) {
 		super();
-		ObjectUtils.argumentNotNull(entityManagerProvider, "EntityManager supplier must be not null");
-		this.entityManagerProvider = entityManagerProvider;
-		this.expressionResolversProvider = expressionResolversProvider;
-	}
-
-	private EntityManager getEntityManager() {
-		EntityManager em = entityManagerProvider.get();
-		if (em == null) {
-			throw new IllegalStateException("EntityManager not available");
-		}
-		return em;
+		this.operationContext = operationContext;
 	}
 
 	/*
@@ -62,8 +42,8 @@ public class DefaultQueryDslCommodity implements QueryDsl {
 	 * @see com.querydsl.core.QueryFactory#query()
 	 */
 	@Override
-	public JpaQuery<?> query() {
-		return new JpaQuery<>(expressionResolversProvider, getEntityManager());
+	public DefaultJpaQuery<?> query() {
+		return new DefaultJpaQuery<>(operationContext);
 	}
 
 	/*
@@ -71,8 +51,8 @@ public class DefaultQueryDslCommodity implements QueryDsl {
 	 * @see com.holonplatform.datastore.jpa.querydsl.QueryDsl#update(com.querydsl.core.types.EntityPath)
 	 */
 	@Override
-	public UpdateClause<?> update(EntityPath<?> path) {
-		return new JPAUpdateClause(getEntityManager(), path);
+	public JpaUpdateClause update(EntityPath<?> entity) {
+		return new DefaultJpaUpdateClause(operationContext, entity);
 	}
 
 	/*
@@ -80,8 +60,8 @@ public class DefaultQueryDslCommodity implements QueryDsl {
 	 * @see com.holonplatform.datastore.jpa.querydsl.QueryDsl#delete(com.querydsl.core.types.EntityPath)
 	 */
 	@Override
-	public DeleteClause<?> delete(EntityPath<?> path) {
-		return new JPADeleteClause(getEntityManager(), path);
+	public JpaDeleteClause delete(EntityPath<?> entity) {
+		return new DefaultJpaDeleteClause(operationContext, entity);
 	}
 
 }

@@ -20,12 +20,11 @@ import java.util.Optional;
 import javax.annotation.Priority;
 
 import com.holonplatform.core.Expression.InvalidExpressionException;
-import com.holonplatform.core.ExpressionResolver;
 import com.holonplatform.core.datastore.relational.SubQuery;
-import com.holonplatform.core.query.Query.QueryBuildException;
 import com.holonplatform.core.query.QueryConfiguration;
-import com.holonplatform.datastore.jpa.internal.querydsl.QueryDSLUtils;
+import com.holonplatform.datastore.jpa.internal.querydsl.DefaultJpaQuery;
 import com.holonplatform.datastore.jpa.internal.querydsl.expressions.EntityPathExpression;
+import com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslContextExpressionResolver;
 import com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslExpression;
 import com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslProjection;
 import com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslResolutionContext;
@@ -40,7 +39,7 @@ import com.querydsl.jpa.JPQLQuery;
  */
 @SuppressWarnings("rawtypes")
 @Priority(Integer.MAX_VALUE - 100)
-public enum QueryDslSubqueryResolver implements ExpressionResolver<SubQuery, QueryDslExpression> {
+public enum QueryDslSubqueryResolver implements QueryDslContextExpressionResolver<SubQuery, QueryDslExpression> {
 
 	INSTANCE;
 
@@ -64,29 +63,27 @@ public enum QueryDslSubqueryResolver implements ExpressionResolver<SubQuery, Que
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.holonplatform.core.Expression.ExpressionResolverFunction#resolve(com.holonplatform.core.Expression,
-	 * com.holonplatform.core.ExpressionResolver.ResolutionContext)
+	 * @see com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslContextExpressionResolver#resolve(com.
+	 * holonplatform.core.Expression,
+	 * com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslResolutionContext)
 	 */
 	@Override
-	public Optional<QueryDslExpression> resolve(SubQuery expression, ResolutionContext resolutionContext)
+	public Optional<QueryDslExpression> resolve(SubQuery expression, QueryDslResolutionContext context)
 			throws InvalidExpressionException {
 
 		expression.validate();
 
 		try {
 
-			final QueryDslResolutionContext parentContext = QueryDslResolutionContext.checkContext(resolutionContext);
-
 			final QueryConfiguration configuration = expression.getQueryConfiguration();
 
 			// target
-			final QueryDslResolutionContext targetContext = QueryDslResolutionContext.create(parentContext,
-					configuration, null);
+			final QueryDslResolutionContext targetContext = context.childContext();
 			// resolve entity path
 			EntityPathExpression<?> expr = targetContext
 					.resolve(
 							configuration.getTarget()
-									.orElseThrow(() -> new QueryBuildException("Missing sub query target")),
+									.orElseThrow(() -> new InvalidExpressionException("Missing sub query target")),
 							EntityPathExpression.class, targetContext)
 					.orElseThrow(() -> new InvalidExpressionException(
 							"Failed to resolve target [" + configuration.getTarget() + "]"));
@@ -107,7 +104,7 @@ public enum QueryDslSubqueryResolver implements ExpressionResolver<SubQuery, Que
 			query.from(expr.getEntityPath());
 
 			// configure
-			QueryDSLUtils.configureQueryFromDefinition(query, configuration, parentContext);
+			DefaultJpaQuery.configureQuery(query, configuration, targetContext);
 
 			return Optional.of(QueryDslExpression.create(query));
 

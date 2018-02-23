@@ -13,25 +13,30 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.holonplatform.datastore.jpa.internal.querydsl.resolvers;
+package com.holonplatform.datastore.jpa.internal.querydsl.resolvers.projection;
 
 import java.util.Optional;
 
 import javax.annotation.Priority;
 
 import com.holonplatform.core.Expression.InvalidExpressionException;
-import com.holonplatform.core.query.QueryFilter;
-import com.holonplatform.datastore.jpa.internal.querydsl.expressions.PredicateExpression;
+import com.holonplatform.core.query.ConstantExpression;
+import com.holonplatform.core.query.ConstantExpressionProjection;
+import com.holonplatform.datastore.jpa.internal.querydsl.expressions.DefaultQueryDslProjection;
 import com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslContextExpressionResolver;
+import com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslExpression;
+import com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslProjection;
 import com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslResolutionContext;
 
 /**
- * QueryDsl {@link QueryFilter} expression resolver.
+ * {@link ConstantExpressionProjection} resolver.
  *
- * @since 5.0.0
+ * @since 5.1.0
  */
-@Priority(Integer.MAX_VALUE)
-public enum QueryDslQueryFilterResolver implements QueryDslContextExpressionResolver<QueryFilter, PredicateExpression> {
+@SuppressWarnings("rawtypes")
+@Priority(Integer.MAX_VALUE - 1000)
+public enum QueryDslConstantExpressionProjectionResolver
+		implements QueryDslContextExpressionResolver<ConstantExpression, QueryDslProjection> {
 
 	INSTANCE;
 
@@ -40,8 +45,8 @@ public enum QueryDslQueryFilterResolver implements QueryDslContextExpressionReso
 	 * @see com.holonplatform.core.ExpressionResolver#getExpressionType()
 	 */
 	@Override
-	public Class<? extends QueryFilter> getExpressionType() {
-		return QueryFilter.class;
+	public Class<? extends ConstantExpression> getExpressionType() {
+		return ConstantExpression.class;
 	}
 
 	/*
@@ -49,8 +54,8 @@ public enum QueryDslQueryFilterResolver implements QueryDslContextExpressionReso
 	 * @see com.holonplatform.core.ExpressionResolver#getResolvedType()
 	 */
 	@Override
-	public Class<? extends PredicateExpression> getResolvedType() {
-		return PredicateExpression.class;
+	public Class<? extends QueryDslProjection> getResolvedType() {
+		return QueryDslProjection.class;
 	}
 
 	/*
@@ -60,17 +65,17 @@ public enum QueryDslQueryFilterResolver implements QueryDslContextExpressionReso
 	 * com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslResolutionContext)
 	 */
 	@Override
-	public Optional<PredicateExpression> resolve(QueryFilter expression, QueryDslResolutionContext context)
+	public Optional<QueryDslProjection> resolve(ConstantExpression expression, QueryDslResolutionContext context)
 			throws InvalidExpressionException {
 
-		// intermediate resolution and validation
-		Optional<QueryFilter> filter = context.resolve(expression, QueryFilter.class);
+		// validate
+		expression.validate();
 
-		if (filter.isPresent()) {
-			return context.resolve(filter.get(), PredicateExpression.class, context);
-		}
+		QueryDslExpression<?> expr = context.resolveOrFail(expression, QueryDslExpression.class);
 
-		return Optional.empty();
+		DefaultQueryDslProjection p = new DefaultQueryDslProjection();
+		p.addSelection(expr.getExpression());
+		return Optional.of(p);
 	}
 
 }

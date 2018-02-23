@@ -47,7 +47,7 @@ public class QueryDslCommodityFactory implements JpaDatastoreCommodityFactory<Qu
 	 */
 	@Override
 	public QueryDsl createCommodity(final JpaDatastoreCommodityContext context) throws CommodityConfigurationException {
-		return new DefaultQueryDslCommodity(() -> context.getEntityManager(), context);
+		return new DefaultQueryDslCommodity(context);
 	}
 
 }

@@ -20,20 +20,21 @@ import java.util.Optional;
 import javax.annotation.Priority;
 
 import com.holonplatform.core.Expression.InvalidExpressionException;
-import com.holonplatform.core.ExpressionResolver;
-import com.holonplatform.core.query.PropertyConstantExpression;
+import com.holonplatform.core.query.CollectionExpression;
+import com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslContextExpressionResolver;
 import com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslExpression;
+import com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslResolutionContext;
 import com.querydsl.core.types.ConstantImpl;
 
 /**
- * QueryDsl {@link PropertyConstantExpression} expression resolver.
+ * QueryDsl collection expression resolver.
  * 
  * @since 5.0.0
  */
 @SuppressWarnings("rawtypes")
-@Priority(Integer.MAX_VALUE - 10)
-public enum QueryDslPropertyConstantExpressionResolver
-		implements ExpressionResolver<PropertyConstantExpression, QueryDslExpression> {
+@Priority(Integer.MAX_VALUE)
+public enum QueryDslCollectionExpressionResolver
+		implements QueryDslContextExpressionResolver<CollectionExpression, QueryDslExpression> {
 
 	INSTANCE;
 
@@ -42,8 +43,8 @@ public enum QueryDslPropertyConstantExpressionResolver
 	 * @see com.holonplatform.core.ExpressionResolver#getExpressionType()
 	 */
 	@Override
-	public Class<? extends PropertyConstantExpression> getExpressionType() {
-		return PropertyConstantExpression.class;
+	public Class<? extends CollectionExpression> getExpressionType() {
+		return CollectionExpression.class;
 	}
 
 	/*
@@ -57,11 +58,12 @@ public enum QueryDslPropertyConstantExpressionResolver
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.holonplatform.core.Expression.ExpressionResolverFunction#resolve(com.holonplatform.core.Expression,
-	 * com.holonplatform.core.ExpressionResolver.ResolutionContext)
+	 * @see com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslContextExpressionResolver#resolve(com.
+	 * holonplatform.core.Expression,
+	 * com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslResolutionContext)
 	 */
 	@Override
-	public Optional<QueryDslExpression> resolve(PropertyConstantExpression expression, ResolutionContext context)
+	public Optional<QueryDslExpression> resolve(CollectionExpression expression, QueryDslResolutionContext context)
 			throws InvalidExpressionException {
 
 		// validate

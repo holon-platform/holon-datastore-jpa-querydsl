@@ -18,6 +18,7 @@ package com.holonplatform.datastore.jpa.querydsl.examples;
 import com.holonplatform.core.datastore.Datastore;
 import com.holonplatform.core.property.PathProperty;
 import com.holonplatform.core.property.PropertyBox;
+import com.holonplatform.core.property.StringProperty;
 import com.holonplatform.datastore.jpa.querydsl.JpaQuery;
 import com.holonplatform.datastore.jpa.querydsl.QueryDsl;
 import com.holonplatform.datastore.jpa.querydsl.QueryDslProperty;
@@ -69,7 +70,7 @@ public class ExampleJpaQueryDsl {
 		Datastore datastore = getDatastore(); // build or obtain a JPA Datastore
 
 		final PathProperty<Long> ID = QueryDslProperty.of(QTest.test.id); // <1>
-		final PathProperty<String> NAME = PathProperty.create("name", String.class); // <2>
+		final StringProperty NAME = StringProperty.create("name"); // <2>
 
 		long count = getDatastore().create(QueryDsl.class).query().from(QTest.test)
 				.filter(ID.gt(2L).and(NAME.startsWith("n"))).count(); // <3>

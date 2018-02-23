@@ -18,8 +18,6 @@ package com.holonplatform.datastore.jpa.querydsl;
 import com.holonplatform.core.datastore.Datastore;
 import com.holonplatform.core.datastore.DatastoreCommodity;
 import com.querydsl.core.Tuple;
-import com.querydsl.core.dml.DeleteClause;
-import com.querydsl.core.dml.UpdateClause;
 import com.querydsl.core.types.EntityPath;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.dsl.Expressions;
@@ -102,7 +100,7 @@ public interface QueryDsl extends DatastoreCommodity {
 	}
 
 	/**
-	 * Create a new Query with the given source.
+	 * Create a new {@link JpaQuery} with the given source.
 	 * @param from Query source
 	 * @return A new query with given source
 	 */
@@ -111,7 +109,7 @@ public interface QueryDsl extends DatastoreCommodity {
 	}
 
 	/**
-	 * Create a new Query with the given sources.
+	 * Create a new {@link JpaQuery} with the given sources.
 	 * @param froms Query sources
 	 * @return A new query with given source
 	 */
@@ -121,16 +119,16 @@ public interface QueryDsl extends DatastoreCommodity {
 
 	/**
 	 * Create a new UPDATE clause.
-	 * @param path Entity to update
+	 * @param entity Entity to update (not null)
 	 * @return A new update clause
 	 */
-	UpdateClause<?> update(EntityPath<?> path);
+	JpaUpdateClause update(EntityPath<?> entity);
 
 	/**
 	 * Create a new DELETE clause.
-	 * @param path Entity to delete from
+	 * @param entity Entity to delete from (not null)
 	 * @return A new delete clause
 	 */
-	DeleteClause<?> delete(EntityPath<?> path);
+	JpaDeleteClause delete(EntityPath<?> entity);
 
 }

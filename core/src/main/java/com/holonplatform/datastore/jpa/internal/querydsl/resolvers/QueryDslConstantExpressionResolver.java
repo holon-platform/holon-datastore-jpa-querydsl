@@ -20,9 +20,10 @@ import java.util.Optional;
 import javax.annotation.Priority;
 
 import com.holonplatform.core.Expression.InvalidExpressionException;
-import com.holonplatform.core.ExpressionResolver;
 import com.holonplatform.core.query.ConstantExpression;
+import com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslContextExpressionResolver;
 import com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslExpression;
+import com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslResolutionContext;
 import com.querydsl.core.types.ConstantImpl;
 
 /**
@@ -32,7 +33,8 @@ import com.querydsl.core.types.ConstantImpl;
  */
 @SuppressWarnings("rawtypes")
 @Priority(Integer.MAX_VALUE)
-public enum QueryDslConstantExpressionResolver implements ExpressionResolver<ConstantExpression, QueryDslExpression> {
+public enum QueryDslConstantExpressionResolver
+		implements QueryDslContextExpressionResolver<ConstantExpression, QueryDslExpression> {
 
 	INSTANCE;
 
@@ -56,18 +58,19 @@ public enum QueryDslConstantExpressionResolver implements ExpressionResolver<Con
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.holonplatform.core.Expression.ExpressionResolverFunction#resolve(com.holonplatform.core.Expression,
-	 * com.holonplatform.core.ExpressionResolver.ResolutionContext)
+	 * @see com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslContextExpressionResolver#resolve(com.
+	 * holonplatform.core.Expression,
+	 * com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslResolutionContext)
 	 */
 	@Override
-	public Optional<QueryDslExpression> resolve(ConstantExpression expression, ResolutionContext context)
+	public Optional<QueryDslExpression> resolve(ConstantExpression expression, QueryDslResolutionContext context)
 			throws InvalidExpressionException {
 
 		// validate
 		expression.validate();
 
 		// return a constant
-		return Optional.of(QueryDslExpression.create(ConstantImpl.create(expression.getValue())));
+		return Optional.of(QueryDslExpression.create(ConstantImpl.create(expression.getModelValue())));
 	}
 
 }

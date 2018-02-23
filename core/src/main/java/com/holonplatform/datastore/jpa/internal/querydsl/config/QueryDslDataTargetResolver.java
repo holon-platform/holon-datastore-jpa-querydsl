@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.holonplatform.datastore.jpa.internal.querydsl.resolvers;
+package com.holonplatform.datastore.jpa.internal.querydsl.config;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -29,8 +29,8 @@ import com.holonplatform.core.Expression.InvalidExpressionException;
 import com.holonplatform.core.ExpressionResolver;
 import com.holonplatform.core.datastore.DataTarget;
 import com.holonplatform.core.internal.utils.ClassUtils;
-import com.holonplatform.datastore.jpa.internal.expressions.JpaEntity;
 import com.holonplatform.datastore.jpa.internal.querydsl.expressions.EntityPathExpression;
+import com.holonplatform.datastore.jpa.jpql.expression.JpaEntity;
 import com.querydsl.core.types.EntityPath;
 
 /**

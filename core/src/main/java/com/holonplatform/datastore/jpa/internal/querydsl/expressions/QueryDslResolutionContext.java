@@ -17,10 +17,12 @@ package com.holonplatform.datastore.jpa.internal.querydsl.expressions;
 
 import java.util.Optional;
 
+import com.holonplatform.core.Expression;
 import com.holonplatform.core.Expression.InvalidExpressionException;
-import com.holonplatform.core.ExpressionResolver.ExpressionResolverHandler;
+import com.holonplatform.core.ExpressionResolver;
+import com.holonplatform.core.ExpressionResolver.ExpressionResolverSupport;
 import com.holonplatform.core.ExpressionResolver.ResolutionContext;
-import com.holonplatform.core.internal.utils.ObjectUtils;
+import com.holonplatform.datastore.jpa.context.JpaContext;
 import com.querydsl.core.QueryMetadata;
 
 /**
@@ -28,7 +30,7 @@ import com.querydsl.core.QueryMetadata;
  *
  * @since 5.0.0
  */
-public interface QueryDslResolutionContext extends ResolutionContext {
+public interface QueryDslResolutionContext extends JpaContext, ResolutionContext, ExpressionResolverSupport {
 
 	/**
 	 * Get the optional parent context.
@@ -43,30 +45,64 @@ public interface QueryDslResolutionContext extends ResolutionContext {
 	Optional<QueryMetadata> getQueryMetadata();
 
 	/**
-	 * Create a new {@link QueryDslResolutionContext}.
-	 * @param parent Optional parent context
-	 * @param expressionResolverHandler Expression resolver handler (not null)
-	 * @param queryMetadata Query metadata (not null)
-	 * @return A new {@link QueryDslResolutionContext}
+	 * Try to resolve given <code>expression</code> using current context resolvers to obtain a
+	 * <code>resolutionType</code> type expression.
+	 * <p>
+	 * The resolved expression is validate using {@link Expression#validate()} before returning it to caller.
+	 * </p>
+	 * @param <E> Expression type
+	 * @param <R> Resolution type
+	 * @param expression Expression to resolve
+	 * @param resolutionType Expression type to obtain
+	 * @return Resolved expression
 	 */
-	static QueryDslResolutionContext create(QueryDslResolutionContext parent,
-			ExpressionResolverHandler expressionResolverHandler, QueryMetadata queryMetadata) {
-		return new DefaultQueryDslResolutionContext(parent, expressionResolverHandler, queryMetadata);
+	default <E extends Expression, R extends Expression> Optional<R> resolve(E expression, Class<R> resolutionType)
+			throws InvalidExpressionException {
+		// resolve
+		return resolve(expression, resolutionType, this).map(e -> {
+			// validate
+			e.validate();
+			return e;
+		});
 	}
 
 	/**
-	 * Check the given context is a {@link QueryDslResolutionContext}.
-	 * @param context Context to check (not null)
-	 * @return The QueryDslResolutionContext
-	 * @throws InvalidExpressionException If given context is not a QueryDslResolutionContext
+	 * Resolve given <code>expression</code> using current context resolvers to obtain a <code>resolutionType</code>
+	 * type expression. If no {@link ExpressionResolver} is available to resolve given expression, an
+	 * {@link InvalidExpressionException} is thrown.
+	 * <p>
+	 * The resolved expression is validate using {@link Expression#validate()} before returning it to caller.
+	 * </p>
+	 * @param <E> Expression type
+	 * @param <R> Resolution type
+	 * @param expression Expression to resolve
+	 * @param resolutionType Expression type to obtain
+	 * @return Resolved expression
+	 * @throws InvalidExpressionException If an error occurred during resolution, or if no {@link ExpressionResolver} is
+	 *         available to resolve given expression or if expression validation failed
 	 */
-	static QueryDslResolutionContext checkContext(ResolutionContext context) {
-		ObjectUtils.argumentNotNull(context, "Null ResolutionContext");
-		if (!QueryDslResolutionContext.class.isAssignableFrom(context.getClass())) {
-			throw new InvalidExpressionException("Invalid ResolutionContext type: expected ["
-					+ QueryDslResolutionContext.class.getName() + "], got [" + context.getClass().getName() + "]");
-		}
-		return (QueryDslResolutionContext) context;
+	default <E extends Expression, R extends Expression> R resolveOrFail(E expression, Class<R> resolutionType) {
+		return resolve(expression, resolutionType)
+				.orElseThrow(() -> new InvalidExpressionException("Failed to resolve expression [" + expression + "]"));
+	}
+
+	// builders
+
+	/**
+	 * Create a new {@link QueryDslResolutionContext} as child of this context. This context will be setted as parent of
+	 * the new context.
+	 * @return A new {@link QueryDslResolutionContext} with this context as parent
+	 */
+	QueryDslResolutionContext childContext();
+
+	/**
+	 * Create a new default {@link QueryDslResolutionContext}.
+	 * @param context JPA context to use (not null)
+	 * @param queryMetadata Query metadata
+	 * @return A new {@link QueryDslResolutionContext}
+	 */
+	static QueryDslResolutionContext create(JpaContext context, QueryMetadata queryMetadata) {
+		return new DefaultQueryDslResolutionContext(context, queryMetadata);
 	}
 
 }

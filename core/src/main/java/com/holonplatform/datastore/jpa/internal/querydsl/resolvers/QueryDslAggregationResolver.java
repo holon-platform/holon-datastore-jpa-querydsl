@@ -22,12 +22,13 @@ import java.util.Optional;
 import javax.annotation.Priority;
 
 import com.holonplatform.core.Expression.InvalidExpressionException;
-import com.holonplatform.core.ExpressionResolver;
 import com.holonplatform.core.Path;
 import com.holonplatform.core.query.QueryAggregation;
 import com.holonplatform.datastore.jpa.internal.querydsl.expressions.PredicateExpression;
 import com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslAggregation;
+import com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslContextExpressionResolver;
 import com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslExpression;
+import com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslResolutionContext;
 import com.querydsl.core.types.Expression;
 
 /**
@@ -36,7 +37,8 @@ import com.querydsl.core.types.Expression;
  * @since 5.0.0
  */
 @Priority(Integer.MAX_VALUE)
-public enum QueryDslAggregationResolver implements ExpressionResolver<QueryAggregation, QueryDslAggregation> {
+public enum QueryDslAggregationResolver
+		implements QueryDslContextExpressionResolver<QueryAggregation, QueryDslAggregation> {
 
 	INSTANCE;
 
@@ -60,11 +62,12 @@ public enum QueryDslAggregationResolver implements ExpressionResolver<QueryAggre
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.holonplatform.core.Expression.ExpressionResolverFunction#resolve(com.holonplatform.core.Expression,
-	 * com.holonplatform.core.ExpressionResolver.ResolutionContext)
+	 * @see com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslContextExpressionResolver#resolve(com.
+	 * holonplatform.core.Expression,
+	 * com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslResolutionContext)
 	 */
 	@Override
-	public Optional<QueryDslAggregation> resolve(QueryAggregation expression, ResolutionContext context)
+	public Optional<QueryDslAggregation> resolve(QueryAggregation expression, QueryDslResolutionContext context)
 			throws InvalidExpressionException {
 
 		// validate
@@ -73,21 +76,15 @@ public enum QueryDslAggregationResolver implements ExpressionResolver<QueryAggre
 		// group by
 		final List<Expression<?>> groupBys = new ArrayList<>(expression.getAggregationPaths().length);
 		for (Path<?> path : expression.getAggregationPaths()) {
-			QueryDslExpression<?> expr = context.resolve(path, QueryDslExpression.class, context).orElseThrow(
-					() -> new InvalidExpressionException("Failed to resolve group by path [" + path + "]"));
-			expr.validate();
-			groupBys.add(expr.getExpression());
+			groupBys.add(context.resolveOrFail(path, QueryDslExpression.class).getExpression());
 		}
 
 		// having
-		QueryDslAggregation aggregation = expression.getAggregationFilter().map(f -> {
-			PredicateExpression prd = context.resolve(f, PredicateExpression.class, context)
-					.orElseThrow(() -> new InvalidExpressionException("Failed to resolve having filter [" + f + "]"));
-			prd.validate();
-			return QueryDslAggregation.create(groupBys, prd.getPredicate());
-		}).orElse(QueryDslAggregation.create(groupBys, null));
+		QueryDslAggregation aggregation = expression.getAggregationFilter()
+				.map(f -> QueryDslAggregation.create(groupBys,
+						context.resolveOrFail(f, PredicateExpression.class).getPredicate()))
+				.orElse(QueryDslAggregation.create(groupBys, null));
 
 		return Optional.of(aggregation);
-
 	}
 }

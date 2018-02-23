@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.holonplatform.datastore.jpa.internal.querydsl.config;
+package com.holonplatform.datastore.jpa.internal.querydsl.resolvers;
 
 import java.util.Optional;
 
@@ -21,7 +21,8 @@ import javax.annotation.Priority;
 
 import com.holonplatform.core.Expression.InvalidExpressionException;
 import com.holonplatform.datastore.jpa.config.JpaDatastoreExpressionResolver;
-import com.holonplatform.datastore.jpa.internal.expressions.JpaEntity;
+import com.holonplatform.datastore.jpa.jpql.context.JPQLResolutionContext;
+import com.holonplatform.datastore.jpa.jpql.expression.JpaEntity;
 import com.holonplatform.datastore.jpa.querydsl.QueryDslTarget;
 
 /**
@@ -55,19 +56,18 @@ public class QueryDslTargetResolver implements JpaDatastoreExpressionResolver<Qu
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.holonplatform.core.Expression.ExpressionResolverFunction#resolve(com.holonplatform.core.Expression,
-	 * com.holonplatform.core.ExpressionResolver.ResolutionContext)
+	 * @see com.holonplatform.datastore.jpa.jpql.context.JPQLContextExpressionResolver#resolve(com.holonplatform.core.
+	 * Expression, com.holonplatform.datastore.jpa.jpql.context.JPQLResolutionContext)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public Optional<JpaEntity> resolve(QueryDslTarget expression,
-			com.holonplatform.core.ExpressionResolver.ResolutionContext context) throws InvalidExpressionException {
-
+	public Optional<JpaEntity> resolve(QueryDslTarget expression, JPQLResolutionContext context)
+			throws InvalidExpressionException {
 		// validate
 		expression.validate();
 
 		// use target entity class
-		return Optional.of(JpaEntity.create(expression.getEntityPath().getType()));
+		return Optional.of(JpaEntity.create(expression.getEntityPath().getType(), expression.getName()));
 	}
 
 }

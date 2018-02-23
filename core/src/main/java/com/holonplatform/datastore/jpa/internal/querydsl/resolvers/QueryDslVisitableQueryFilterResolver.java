@@ -22,10 +22,9 @@ import java.util.Optional;
 import javax.annotation.Priority;
 
 import com.holonplatform.core.Expression.InvalidExpressionException;
-import com.holonplatform.core.ExpressionResolver;
+import com.holonplatform.core.TypedExpression;
 import com.holonplatform.core.internal.query.QueryFilterVisitor;
 import com.holonplatform.core.internal.query.QueryFilterVisitor.VisitableQueryFilter;
-import com.holonplatform.core.internal.query.QueryUtils;
 import com.holonplatform.core.internal.query.filter.AndFilter;
 import com.holonplatform.core.internal.query.filter.BetweenFilter;
 import com.holonplatform.core.internal.query.filter.EqualFilter;
@@ -39,9 +38,10 @@ import com.holonplatform.core.internal.query.filter.NotNullFilter;
 import com.holonplatform.core.internal.query.filter.NullFilter;
 import com.holonplatform.core.internal.query.filter.OrFilter;
 import com.holonplatform.core.internal.query.filter.StringMatchFilter;
-import com.holonplatform.core.query.QueryExpression;
+import com.holonplatform.core.query.ConstantExpression;
 import com.holonplatform.core.query.QueryFilter;
 import com.holonplatform.datastore.jpa.internal.querydsl.expressions.PredicateExpression;
+import com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslContextExpressionResolver;
 import com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslExpression;
 import com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslResolutionContext;
 import com.querydsl.core.types.ConstantImpl;
@@ -58,7 +58,7 @@ import com.querydsl.core.types.dsl.Expressions;
  */
 @Priority(Integer.MAX_VALUE - 12)
 public enum QueryDslVisitableQueryFilterResolver
-		implements ExpressionResolver<VisitableQueryFilter, PredicateExpression>,
+		implements QueryDslContextExpressionResolver<VisitableQueryFilter, PredicateExpression>,
 		QueryFilterVisitor<PredicateExpression, QueryDslResolutionContext> {
 
 	INSTANCE;
@@ -83,18 +83,19 @@ public enum QueryDslVisitableQueryFilterResolver
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.holonplatform.core.Expression.ExpressionResolverFunction#resolve(com.holonplatform.core.Expression,
-	 * com.holonplatform.core.ExpressionResolver.ResolutionContext)
+	 * @see com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslContextExpressionResolver#resolve(com.
+	 * holonplatform.core.Expression,
+	 * com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslResolutionContext)
 	 */
 	@Override
-	public Optional<PredicateExpression> resolve(VisitableQueryFilter expression, ResolutionContext context)
+	public Optional<PredicateExpression> resolve(VisitableQueryFilter expression, QueryDslResolutionContext context)
 			throws InvalidExpressionException {
 
 		// validate
 		expression.validate();
 
 		// resolve using visitor
-		return Optional.ofNullable(expression.accept(this, QueryDslResolutionContext.checkContext(context)));
+		return Optional.ofNullable(expression.accept(this, context));
 	}
 
 	/*
@@ -104,8 +105,8 @@ public enum QueryDslVisitableQueryFilterResolver
 	 */
 	@Override
 	public PredicateExpression visit(NullFilter filter, QueryDslResolutionContext context) {
-		return PredicateExpression
-				.create(Expressions.booleanOperation(Ops.IS_NULL, resolve(filter.getLeftOperand(), context)));
+		return PredicateExpression.create(Expressions.booleanOperation(Ops.IS_NULL,
+				context.resolveOrFail(filter.getLeftOperand(), QueryDslExpression.class).getExpression()));
 	}
 
 	/*
@@ -115,8 +116,8 @@ public enum QueryDslVisitableQueryFilterResolver
 	 */
 	@Override
 	public PredicateExpression visit(NotNullFilter filter, QueryDslResolutionContext context) {
-		return PredicateExpression
-				.create(Expressions.booleanOperation(Ops.IS_NOT_NULL, resolve(filter.getLeftOperand(), context)));
+		return PredicateExpression.create(Expressions.booleanOperation(Ops.IS_NOT_NULL,
+				context.resolveOrFail(filter.getLeftOperand(), QueryDslExpression.class).getExpression()));
 	}
 
 	/*
@@ -126,14 +127,11 @@ public enum QueryDslVisitableQueryFilterResolver
 	 */
 	@Override
 	public <T> PredicateExpression visit(EqualFilter<T> filter, QueryDslResolutionContext context) {
-		return PredicateExpression
-				.create(Expressions
-						.booleanOperation(Ops.EQ,
-								resolve(filter.getLeftOperand(), context), resolve(
-										filter.getRightOperand()
-												.orElseThrow(() -> new InvalidExpressionException(
-														"Missing right operand in filter [" + filter + "]")),
-										context)));
+		TypedExpression<? super T> rightOperand = filter.getRightOperand()
+				.orElseThrow(() -> new InvalidExpressionException("Missing right operand in filter [" + filter + "]"));
+		return PredicateExpression.create(Expressions.booleanOperation(Ops.EQ,
+				context.resolveOrFail(filter.getLeftOperand(), QueryDslExpression.class).getExpression(),
+				context.resolveOrFail(rightOperand, QueryDslExpression.class).getExpression()));
 	}
 
 	/*
@@ -143,14 +141,11 @@ public enum QueryDslVisitableQueryFilterResolver
 	 */
 	@Override
 	public <T> PredicateExpression visit(NotEqualFilter<T> filter, QueryDslResolutionContext context) {
-		return PredicateExpression
-				.create(Expressions
-						.booleanOperation(Ops.NE,
-								resolve(filter.getLeftOperand(), context), resolve(
-										filter.getRightOperand()
-												.orElseThrow(() -> new InvalidExpressionException(
-														"Missing right operand in filter [" + filter + "]")),
-										context)));
+		TypedExpression<? super T> rightOperand = filter.getRightOperand()
+				.orElseThrow(() -> new InvalidExpressionException("Missing right operand in filter [" + filter + "]"));
+		return PredicateExpression.create(Expressions.booleanOperation(Ops.NE,
+				context.resolveOrFail(filter.getLeftOperand(), QueryDslExpression.class).getExpression(),
+				context.resolveOrFail(rightOperand, QueryDslExpression.class).getExpression()));
 	}
 
 	/*
@@ -160,14 +155,11 @@ public enum QueryDslVisitableQueryFilterResolver
 	 */
 	@Override
 	public <T> PredicateExpression visit(GreaterFilter<T> filter, QueryDslResolutionContext context) {
-		return PredicateExpression
-				.create(Expressions
-						.booleanOperation(filter.isIncludeEquals() ? Ops.GOE : Ops.GT,
-								resolve(filter.getLeftOperand(), context), resolve(
-										filter.getRightOperand()
-												.orElseThrow(() -> new InvalidExpressionException(
-														"Missing right operand in filter [" + filter + "]")),
-										context)));
+		TypedExpression<? super T> rightOperand = filter.getRightOperand()
+				.orElseThrow(() -> new InvalidExpressionException("Missing right operand in filter [" + filter + "]"));
+		return PredicateExpression.create(Expressions.booleanOperation(filter.isIncludeEquals() ? Ops.GOE : Ops.GT,
+				context.resolveOrFail(filter.getLeftOperand(), QueryDslExpression.class).getExpression(),
+				context.resolveOrFail(rightOperand, QueryDslExpression.class).getExpression()));
 	}
 
 	/*
@@ -177,14 +169,11 @@ public enum QueryDslVisitableQueryFilterResolver
 	 */
 	@Override
 	public <T> PredicateExpression visit(LessFilter<T> filter, QueryDslResolutionContext context) {
-		return PredicateExpression
-				.create(Expressions
-						.booleanOperation(filter.isIncludeEquals() ? Ops.LOE : Ops.LT,
-								resolve(filter.getLeftOperand(), context), resolve(
-										filter.getRightOperand()
-												.orElseThrow(() -> new InvalidExpressionException(
-														"Missing right operand in filter [" + filter + "]")),
-										context)));
+		TypedExpression<? super T> rightOperand = filter.getRightOperand()
+				.orElseThrow(() -> new InvalidExpressionException("Missing right operand in filter [" + filter + "]"));
+		return PredicateExpression.create(Expressions.booleanOperation(filter.isIncludeEquals() ? Ops.LOE : Ops.LT,
+				context.resolveOrFail(filter.getLeftOperand(), QueryDslExpression.class).getExpression(),
+				context.resolveOrFail(rightOperand, QueryDslExpression.class).getExpression()));
 	}
 
 	/*
@@ -194,14 +183,11 @@ public enum QueryDslVisitableQueryFilterResolver
 	 */
 	@Override
 	public <T> PredicateExpression visit(InFilter<T> filter, QueryDslResolutionContext context) {
-		return PredicateExpression
-				.create(Expressions
-						.booleanOperation(Ops.IN,
-								resolve(filter.getLeftOperand(), context), resolve(
-										filter.getRightOperand()
-												.orElseThrow(() -> new InvalidExpressionException(
-														"Missing right operand in filter [" + filter + "]")),
-										context)));
+		TypedExpression<? super T> rightOperand = filter.getRightOperand()
+				.orElseThrow(() -> new InvalidExpressionException("Missing right operand in filter [" + filter + "]"));
+		return PredicateExpression.create(Expressions.booleanOperation(Ops.IN,
+				context.resolveOrFail(filter.getLeftOperand(), QueryDslExpression.class).getExpression(),
+				context.resolveOrFail(rightOperand, QueryDslExpression.class).getExpression()));
 	}
 
 	/*
@@ -211,14 +197,11 @@ public enum QueryDslVisitableQueryFilterResolver
 	 */
 	@Override
 	public <T> PredicateExpression visit(NotInFilter<T> filter, QueryDslResolutionContext context) {
-		return PredicateExpression
-				.create(Expressions
-						.booleanOperation(Ops.NOT_IN,
-								resolve(filter.getLeftOperand(), context), resolve(
-										filter.getRightOperand()
-												.orElseThrow(() -> new InvalidExpressionException(
-														"Missing right operand in filter [" + filter + "]")),
-										context)));
+		TypedExpression<? super T> rightOperand = filter.getRightOperand()
+				.orElseThrow(() -> new InvalidExpressionException("Missing right operand in filter [" + filter + "]"));
+		return PredicateExpression.create(Expressions.booleanOperation(Ops.NOT_IN,
+				context.resolveOrFail(filter.getLeftOperand(), QueryDslExpression.class).getExpression(),
+				context.resolveOrFail(rightOperand, QueryDslExpression.class).getExpression()));
 	}
 
 	/*
@@ -228,12 +211,12 @@ public enum QueryDslVisitableQueryFilterResolver
 	 */
 	@Override
 	public <T> PredicateExpression visit(BetweenFilter<T> filter, QueryDslResolutionContext context) {
-		final Expression<?> left = resolve(filter.getLeftOperand(), context);
-		final Expression<?> from = resolve(
-				QueryUtils.asConstantExpression(filter.getLeftOperand(), filter.getFromValue()), context);
-		final Expression<?> to = resolve(QueryUtils.asConstantExpression(filter.getLeftOperand(), filter.getToValue()),
-				context);
-		return PredicateExpression.create(Expressions.booleanOperation(Ops.BETWEEN, left, from, to));
+		ConstantExpression<T> from = ConstantExpression.create(filter.getFromValue());
+		ConstantExpression<T> to = ConstantExpression.create(filter.getToValue());
+		return PredicateExpression.create(Expressions.booleanOperation(Ops.BETWEEN,
+				context.resolveOrFail(filter.getLeftOperand(), QueryDslExpression.class).getExpression(),
+				context.resolveOrFail(from, QueryDslExpression.class).getExpression(),
+				context.resolveOrFail(to, QueryDslExpression.class).getExpression()));
 	}
 
 	/*
@@ -243,25 +226,26 @@ public enum QueryDslVisitableQueryFilterResolver
 	 */
 	@Override
 	public PredicateExpression visit(StringMatchFilter filter, QueryDslResolutionContext context) {
-		final Expression<?> left = resolve(filter.getLeftOperand(), context);
 
-		final QueryExpression<? super String> rightExpression = filter.getRightOperand()
-				.orElseThrow(() -> new InvalidExpressionException("Missing right operand in filter [" + filter + "]"));
+		// left operand
+		Expression<?> left = context.resolveOrFail(filter.getLeftOperand(), QueryDslExpression.class).getExpression();
 
-		final Object value = QueryUtils.getConstantExpressionValue(rightExpression);
-
-		String pattern = (value != null) ? value.toString() : "";
+		// check value
+		String value = filter.getValue();
+		if (value == null) {
+			throw new InvalidExpressionException("String match filter value cannot be null");
+		}
 
 		// add wildcards
 		switch (filter.getMatchMode()) {
 		case CONTAINS:
-			pattern = "%" + pattern + "%";
+			value = "%" + value + "%";
 			break;
 		case ENDS_WITH:
-			pattern = "%" + pattern;
+			value = "%" + value;
 			break;
 		case STARTS_WITH:
-			pattern = pattern + "%";
+			value = value + "%";
 			break;
 		default:
 			break;
@@ -269,10 +253,10 @@ public enum QueryDslVisitableQueryFilterResolver
 
 		if (filter.isIgnoreCase()) {
 			return PredicateExpression
-					.create(Expressions.booleanOperation(Ops.LIKE_IC, left, ConstantImpl.create(pattern)));
+					.create(Expressions.booleanOperation(Ops.LIKE_IC, left, ConstantImpl.create(value)));
 		}
 
-		return PredicateExpression.create(Expressions.booleanOperation(Ops.LIKE, left, ConstantImpl.create(pattern)));
+		return PredicateExpression.create(Expressions.booleanOperation(Ops.LIKE, left, ConstantImpl.create(value)));
 	}
 
 	/*
@@ -307,14 +291,6 @@ public enum QueryDslVisitableQueryFilterResolver
 						"Failed to resolve QueryFilter [" + filter.getComposition().get(0) + "]"));
 		prd.validate();
 		return PredicateExpression.create(prd.getPredicate().not());
-	}
-
-	private static Expression<?> resolve(com.holonplatform.core.Expression expression,
-			QueryDslResolutionContext context) {
-		QueryDslExpression<?> expr = context.resolve(expression, QueryDslExpression.class, context)
-				.orElseThrow(() -> new InvalidExpressionException("Failed to resolve expression [" + expression + "]"));
-		expr.validate();
-		return expr.getExpression();
 	}
 
 	private static Predicate[] resolveFilterList(List<QueryFilter> filters, QueryDslResolutionContext context)

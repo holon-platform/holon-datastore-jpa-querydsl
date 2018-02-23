@@ -16,8 +16,6 @@
 package com.holonplatform.datastore.jpa.internal.querydsl;
 
 import com.holonplatform.core.internal.property.AbstractPathProperty;
-import com.holonplatform.core.internal.query.QueryProjectionVisitor;
-import com.holonplatform.core.internal.query.QueryProjectionVisitor.VisitableQueryProjection;
 import com.holonplatform.core.internal.utils.ObjectUtils;
 import com.holonplatform.datastore.jpa.JpaTarget;
 import com.holonplatform.datastore.jpa.querydsl.QueryDslProperty;
@@ -32,7 +30,7 @@ import com.querydsl.core.types.Path;
  * @since 4.5.0
  */
 public class DefaultQueryDslProperty<T> extends AbstractPathProperty<T, QueryDslPropertyBuilder<T>>
-		implements QueryDslPropertyBuilder<T>, VisitableQueryProjection<T> {
+		implements QueryDslPropertyBuilder<T> {
 
 	private static final long serialVersionUID = 5654271615510770761L;
 
@@ -63,17 +61,6 @@ public class DefaultQueryDslProperty<T> extends AbstractPathProperty<T, QueryDsl
 	@Override
 	public Path<T> getPath() {
 		return path;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * com.holonplatform.core.internal.query.QueryProjectionVisitor.VisitableQueryProjection#accept(com.holonplatform.
-	 * core.internal.query.QueryProjectionVisitor, java.lang.Object)
-	 */
-	@Override
-	public <R, C> R accept(QueryProjectionVisitor<R, C> visitor, C context) {
-		return visitor.visit(this, context);
 	}
 
 	/**
