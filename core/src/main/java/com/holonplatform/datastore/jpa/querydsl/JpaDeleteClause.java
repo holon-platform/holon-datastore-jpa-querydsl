@@ -18,7 +18,7 @@ package com.holonplatform.datastore.jpa.querydsl;
 import com.querydsl.core.dml.DeleteClause;
 
 /**
- * TODO
+ * QueryDSL JPA {@link DeleteClause} extension to be used with the {@link QueryDsl} Datastore commodity.
  * 
  * @since 5.1.0
  */

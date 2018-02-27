@@ -98,13 +98,7 @@ import com.querydsl.jpa.impl.JPAProvider;
 import com.querydsl.jpa.impl.JPAUtil;
 
 /**
- * A QueryDSL (www.querydsl.com) {@link JPQLQuery} extension that supports {@link Query} clauses and
- * {@link ExpressionResolver}s.
- * 
- * <p>
- * Furthermore, some QueryDSL 3.x backward compatibility methods are provided, such as {@link #list(Expression)} and
- * {@link #uniqueResult(Expression)}.
- * </p>
+ * Default {@link JpaQuery} implementation.
  * 
  * @param <T> Query result type
  * 

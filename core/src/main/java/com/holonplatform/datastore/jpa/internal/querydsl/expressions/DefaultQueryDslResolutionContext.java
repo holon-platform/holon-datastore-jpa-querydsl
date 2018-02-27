@@ -81,7 +81,8 @@ public class DefaultQueryDslResolutionContext implements QueryDslResolutionConte
 		return context;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslResolutionContext#childContext()
 	 */
 	@Override

@@ -34,7 +34,8 @@ import com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslRes
  */
 @SuppressWarnings("rawtypes")
 @Priority(Integer.MAX_VALUE - 100)
-public enum QueryDslDataTargetProjectionResolver implements QueryDslContextExpressionResolver<DataTarget, QueryDslProjection> {
+public enum QueryDslDataTargetProjectionResolver
+		implements QueryDslContextExpressionResolver<DataTarget, QueryDslProjection> {
 
 	INSTANCE;
 

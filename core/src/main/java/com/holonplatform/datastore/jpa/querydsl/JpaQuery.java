@@ -20,8 +20,11 @@ import java.util.List;
 import javax.persistence.FlushModeType;
 import javax.persistence.LockModeType;
 
-import com.holonplatform.core.datastore.DatastoreCommodity;
+import com.holonplatform.core.datastore.DataTarget;
+import com.holonplatform.core.query.QueryAggregation;
 import com.holonplatform.core.query.QueryBuilder;
+import com.holonplatform.core.query.QueryFilter;
+import com.holonplatform.core.query.QuerySort;
 import com.querydsl.core.NonUniqueResultException;
 import com.querydsl.core.QueryModifiers;
 import com.querydsl.core.Tuple;
@@ -37,11 +40,29 @@ import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.JPQLQuery;
 
 /**
- * TODO
+ * QueryDSL JPA query interface.
+ * <p>
+ * Combines the features of the standard QueryDSL {@link JPQLQuery} with the Holon {@link QueryBuilder}, allowing to
+ * seamlessy use the default core query architecture expressions (for example {@link DataTarget}, {@link QueryFilter},
+ * {@link QuerySort} and {@link QueryAggregation}) for query definition.
+ * </p>
+ * <p>
+ * Provides some convenience methods to obtain query results providing a projection expression, such as
+ * {@link #list(Expression)}, {@link #singleResult(Expression)}, {@link #uniqueResult(Expression)}.
+ * </p>
+ * <p>
+ * The {@link QueryDsl} Datastore commodity can be used to obtain a new {@link JpaQuery} instance through the
+ * {@link QueryDsl#query()} method. Example:
+ * 
+ * <pre>
+ * JpaQuery q = getDatastore().create(QueryDsl.class).query();
+ * </pre>
+ * 
+ * @param <T> Query result type
  * 
  * @since 5.1.0
  */
-public interface JpaQuery<T> extends QueryBuilder<JpaQuery<T>>, JPQLQuery<T>, DatastoreCommodity {
+public interface JpaQuery<T> extends QueryBuilder<JpaQuery<T>>, JPQLQuery<T> {
 
 	/**
 	 * {@inheritDoc}
