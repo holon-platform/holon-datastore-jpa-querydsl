@@ -46,6 +46,7 @@ import com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslRes
 import com.holonplatform.datastore.jpa.internal.querydsl.resolvers.QueryDslAggregationResolver;
 import com.holonplatform.datastore.jpa.internal.querydsl.resolvers.QueryDslCollectionExpressionResolver;
 import com.holonplatform.datastore.jpa.internal.querydsl.resolvers.QueryDslConstantExpressionResolver;
+import com.holonplatform.datastore.jpa.internal.querydsl.resolvers.QueryDslDataTargetResolver;
 import com.holonplatform.datastore.jpa.internal.querydsl.resolvers.QueryDslExistFilterResolver;
 import com.holonplatform.datastore.jpa.internal.querydsl.resolvers.QueryDslNotExistFilterResolver;
 import com.holonplatform.datastore.jpa.internal.querydsl.resolvers.QueryDslPathResolver;
@@ -65,7 +66,6 @@ import com.holonplatform.datastore.jpa.internal.querydsl.resolvers.projection.Qu
 import com.holonplatform.datastore.jpa.internal.querydsl.resolvers.projection.QueryDslTypedExpressionProjectionResolver;
 import com.holonplatform.datastore.jpa.querydsl.JpaQuery;
 import com.mysema.commons.lang.CloseableIterator;
-import com.mysema.commons.lang.IteratorAdapter;
 import com.querydsl.core.DefaultQueryMetadata;
 import com.querydsl.core.NonUniqueResultException;
 import com.querydsl.core.QueryMetadata;
@@ -138,6 +138,7 @@ public class DefaultJpaQuery<T> implements JpaQuery<T> {
 
 		// default resolvers
 		this.queryDefinition.addExpressionResolver(QueryDslTargetEntityPathResolver.INSTANCE);
+		this.queryDefinition.addExpressionResolver(QueryDslDataTargetResolver.INSTANCE);
 		this.queryDefinition.addExpressionResolver(QueryDslPropertyResolver.INSTANCE);
 		this.queryDefinition.addExpressionResolver(QueryDslPathResolver.INSTANCE);
 		this.queryDefinition.addExpressionResolver(QueryDslQueryFunctionResolver.INSTANCE);
@@ -151,17 +152,13 @@ public class DefaultJpaQuery<T> implements JpaQuery<T> {
 		this.queryDefinition.addExpressionResolver(QueryDslVisitableQueryFilterResolver.INSTANCE);
 		this.queryDefinition.addExpressionResolver(QueryDslVisitableQuerySortResolver.INSTANCE);
 		this.queryDefinition.addExpressionResolver(QueryDslAggregationResolver.INSTANCE);
+
 		this.queryDefinition.addExpressionResolver(QueryDslConstantExpressionProjectionResolver.INSTANCE);
 		this.queryDefinition.addExpressionResolver(QueryDslTypedExpressionProjectionResolver.INSTANCE);
 		this.queryDefinition.addExpressionResolver(QueryDslDataTargetProjectionResolver.INSTANCE);
 		this.queryDefinition.addExpressionResolver(QueryDslCountAllProjectionResolver.INSTANCE);
 		this.queryDefinition.addExpressionResolver(QueryDslPropertySetProjectionResolver.INSTANCE);
 		this.queryDefinition.addExpressionResolver(QueryDslBeanProjectionResolver.INSTANCE);
-
-		// TODO
-		// add new resolvers
-
-		queryDefinition.addExpressionResolvers(operationContext.getExpressionResolvers());
 	}
 
 	/*
@@ -903,9 +900,13 @@ public class DefaultJpaQuery<T> implements JpaQuery<T> {
 	 * (non-Javadoc)
 	 * @see com.querydsl.core.Fetchable#fetch()
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<T> fetch() {
-		return IteratorAdapter.asList(iterate());
+		return operationContext.withEntityManager(entityManager -> {
+			Query query = createQuery(entityManager);
+			return (List<T>) getResultList(query);
+		});
 	}
 
 	/*
@@ -962,7 +963,7 @@ public class DefaultJpaQuery<T> implements JpaQuery<T> {
 	public CloseableIterator<T> iterate() {
 		return operationContext.withEntityManager(entityManager -> {
 			final JPQLTemplates templates = JPAProvider.getTemplates(entityManager);
-			Query query = createQuery(entityManager);
+			Query query = createQuery(templates, entityManager);
 			return templates.getQueryHandler().iterate(query, projection);
 		});
 	}

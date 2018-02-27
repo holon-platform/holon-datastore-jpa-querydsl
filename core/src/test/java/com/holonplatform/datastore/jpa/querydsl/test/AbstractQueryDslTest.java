@@ -273,17 +273,6 @@ public abstract class AbstractQueryDslTest {
 		assertNotNull(results);
 		assertEquals(2, results.size());
 
-		// TODO
-		/*
-		 * results = getDatastore().query().target(TARGET)
-		 * .filter(QueryDslProperty.of(QTestJpaDomain.testJpaDomain.stringValue).contains("On")).list(PROPS);
-		 * assertNotNull(results); assertEquals(1, results.size()); assertEquals(new Long(1),
-		 * results.get(0).getValue(KEY)); results = getDatastore().query().target(TARGET)
-		 * .filter(QueryDslProperty.of(QTestJpaDomain.testJpaDomain.stringValue).containsIgnoreCase("on")) .list(PROPS);
-		 * assertNotNull(results); assertEquals(1, results.size()); assertEquals(new Long(1),
-		 * results.get(0).getValue(KEY));
-		 */
-
 		results = getDatastore().query().target(TARGET)
 				.filter(new NotFilter(QueryDslProperty.of(QTestJpaDomain.testJpaDomain.key).eq(1L))).list(PROPS);
 		assertNotNull(results);
@@ -433,8 +422,7 @@ public abstract class AbstractQueryDslTest {
 
 		results = getDatastore().query().target(TARGET)
 				.filter(new MoreCustomFilter(QueryDslProperty.of(QTestJpaDomain.testJpaDomain.key))).sort(STR.desc())
-				.withExpressionResolver(new MoreCustomFilterResolver())
-				.withExpressionResolver(new CustomFilterResolver()).list(PROPS);
+				.withExpressionResolver(new MoreCustomFilterResolver()).list(PROPS);
 		assertNotNull(results);
 		assertEquals(0, results.size());
 
@@ -456,6 +444,7 @@ public abstract class AbstractQueryDslTest {
 
 	@Test
 	public void testDslQuery() {
+
 		JpaQuery<?> q = getDatastore().create(QueryDsl.class).query();
 		q.from(QTestJpaDomain.testJpaDomain);
 

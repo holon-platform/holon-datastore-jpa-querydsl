@@ -67,7 +67,8 @@ public class QueryDslTargetResolver implements JpaDatastoreExpressionResolver<Qu
 		expression.validate();
 
 		// use target entity class
-		return Optional.of(JpaEntity.create(expression.getEntityPath().getType(), expression.getName()));
+		return Optional.of(JpaEntity.create(context.getEntityManagerFactory().getMetamodel(),
+				expression.getEntityPath().getType()));
 	}
 
 }
