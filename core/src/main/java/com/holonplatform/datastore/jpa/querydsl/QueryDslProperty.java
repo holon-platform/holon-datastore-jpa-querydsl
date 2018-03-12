@@ -50,7 +50,8 @@ public interface QueryDslProperty<T> extends PathProperty<T> {
 	 * {@link QueryDslProperty} builder.
 	 * @param <T> Property type
 	 */
-	public interface QueryDslPropertyBuilder<T> extends Builder<T, QueryDslPropertyBuilder<T>>, QueryDslProperty<T> {
+	public interface QueryDslPropertyBuilder<T>
+			extends Builder<T, QueryDslProperty<T>, QueryDslPropertyBuilder<T>>, QueryDslProperty<T> {
 
 	}
 

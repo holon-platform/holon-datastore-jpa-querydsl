@@ -29,7 +29,7 @@ import com.querydsl.core.types.Path;
  * 
  * @since 4.5.0
  */
-public class DefaultQueryDslProperty<T> extends AbstractPathProperty<T, QueryDslPropertyBuilder<T>>
+public class DefaultQueryDslProperty<T> extends AbstractPathProperty<T, QueryDslProperty<T>, QueryDslPropertyBuilder<T>>
 		implements QueryDslPropertyBuilder<T> {
 
 	private static final long serialVersionUID = 5654271615510770761L;
@@ -52,6 +52,24 @@ public class DefaultQueryDslProperty<T> extends AbstractPathProperty<T, QueryDsl
 		if (path.getRoot() != null) {
 			parent(JpaTarget.of(path.getRoot().getType()));
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.holonplatform.core.internal.property.AbstractProperty#getActualProperty()
+	 */
+	@Override
+	protected QueryDslProperty<T> getActualProperty() {
+		return this;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.holonplatform.core.internal.property.AbstractProperty#getActualBuilder()
+	 */
+	@Override
+	protected QueryDslPropertyBuilder<T> getActualBuilder() {
+		return this;
 	}
 
 	/*
