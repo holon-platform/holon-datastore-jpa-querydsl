@@ -15,6 +15,8 @@
  */
 package com.holonplatform.datastore.jpa.querydsl;
 
+import java.util.Optional;
+
 import com.holonplatform.core.datastore.DataTarget;
 import com.holonplatform.datastore.jpa.internal.querydsl.DefaultQueryDslTarget;
 import com.querydsl.core.types.EntityPath;
@@ -33,6 +35,15 @@ public interface QueryDslTarget<T> extends DataTarget<T> {
 	 * @return Target EntityPath
 	 */
 	EntityPath<T> getEntityPath();
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.holonplatform.core.DataMappable#getDataPath()
+	 */
+	@Override
+	default Optional<String> getDataPath() {
+		return Optional.empty();
+	}
 
 	/**
 	 * Create a QueryDslTarget using given <code>entityPath</code>.
