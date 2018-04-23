@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.holon-platform.jpa</groupId>
 		<artifactId>holon-datastore-jpa-querydsl-root</artifactId>
-		<version>5.1.0</version>
+		<version>5.1.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>holon-starter-jpa-querydsl-eclipselink</artifactId>
