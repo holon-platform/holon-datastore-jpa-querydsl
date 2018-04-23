@@ -58,7 +58,7 @@
 		<bintray.package>holon-datastore-jpa-querydsl</bintray.package>
 
 		<!-- Holon JPA -->
-		<holon.jpa.version>5.1.0-SNAPSHOT</holon.jpa.version>
+		<holon.jpa.version>5.1.0</holon.jpa.version>
 
 		<!-- QueryDSL -->
 		<querydsl.version>4.2.1</querydsl.version>
