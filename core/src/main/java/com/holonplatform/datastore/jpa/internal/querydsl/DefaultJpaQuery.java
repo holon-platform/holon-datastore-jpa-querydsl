@@ -1120,7 +1120,7 @@ public class DefaultJpaQuery<T> implements JpaQuery<T> {
 	 * Configure JPA query using query definition
 	 * @param query JPA query to configure
 	 * @param configuration Query configuration
-	 * @param parentContext Optional parent context
+	 * @param context Resolution context
 	 */
 	public static void configureQuery(JPQLQuery<?> query, QueryConfiguration configuration,
 			QueryDslResolutionContext context) {
