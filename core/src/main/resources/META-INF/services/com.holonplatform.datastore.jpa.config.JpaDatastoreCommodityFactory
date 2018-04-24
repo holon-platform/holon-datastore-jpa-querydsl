@@ -1,1 +1,1 @@
-com.holonplatform.datastore.jpa.internal.querydsl.config.QueryDslCommodityFactory
+com.holonplatform.datastore.jpa.querydsl.internal.config.QueryDslCommodityFactory
