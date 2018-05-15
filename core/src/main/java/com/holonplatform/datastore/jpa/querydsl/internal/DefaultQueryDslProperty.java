@@ -15,8 +15,11 @@
  */
 package com.holonplatform.datastore.jpa.querydsl.internal;
 
+import java.util.function.Consumer;
+
 import com.holonplatform.core.internal.property.AbstractPathProperty;
 import com.holonplatform.core.internal.utils.ObjectUtils;
+import com.holonplatform.core.property.PathProperty;
 import com.holonplatform.datastore.jpa.JpaTarget;
 import com.holonplatform.datastore.jpa.querydsl.QueryDslProperty;
 import com.holonplatform.datastore.jpa.querydsl.QueryDslProperty.QueryDslPropertyBuilder;
@@ -79,6 +82,15 @@ public class DefaultQueryDslProperty<T> extends AbstractPathProperty<T, QueryDsl
 	@Override
 	public Path<T> getPath() {
 		return path;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.holonplatform.core.property.CloneableProperty#clone(java.util.function.Consumer)
+	 */
+	@Override
+	public PathProperty<T> clone(Consumer<PathProperty.Builder<T, PathProperty<T>, ?>> builder) {
+		return clonePathProperty(new DefaultQueryDslProperty<>(getPath()), builder);
 	}
 
 	/**
