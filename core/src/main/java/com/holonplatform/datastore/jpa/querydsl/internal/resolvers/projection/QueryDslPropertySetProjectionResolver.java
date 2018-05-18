@@ -20,9 +20,9 @@ import java.util.Optional;
 import javax.annotation.Priority;
 
 import com.holonplatform.core.Expression.InvalidExpressionException;
-import com.holonplatform.core.TypedExpression;
 import com.holonplatform.core.property.Property;
 import com.holonplatform.core.query.PropertySetProjection;
+import com.holonplatform.core.query.QueryProjection;
 import com.holonplatform.datastore.jpa.querydsl.internal.expressions.DefaultQueryDslProjection;
 import com.holonplatform.datastore.jpa.querydsl.internal.expressions.QueryDslContextExpressionResolver;
 import com.holonplatform.datastore.jpa.querydsl.internal.expressions.QueryDslExpression;
@@ -74,9 +74,8 @@ public enum QueryDslPropertySetProjectionResolver
 		final DefaultQueryDslProjection p = new DefaultQueryDslProjection();
 
 		for (Property<?> property : expression.getPropertySet()) {
-			if (TypedExpression.class.isAssignableFrom(property.getClass())) {
-				final TypedExpression<?> propertyExpression = (TypedExpression<?>) property;
-				p.addSelection(context.resolveOrFail(propertyExpression, QueryDslExpression.class).getExpression());
+			if (QueryProjection.class.isAssignableFrom(property.getClass())) {
+				p.addSelection(context.resolveOrFail(property, QueryDslExpression.class).getExpression());
 			}
 		}
 

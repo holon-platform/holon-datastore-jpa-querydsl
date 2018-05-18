@@ -20,7 +20,7 @@ import java.util.Optional;
 import javax.annotation.Priority;
 
 import com.holonplatform.core.Expression.InvalidExpressionException;
-import com.holonplatform.core.query.CollectionExpression;
+import com.holonplatform.core.query.CollectionConstantExpression;
 import com.holonplatform.datastore.jpa.querydsl.internal.expressions.QueryDslContextExpressionResolver;
 import com.holonplatform.datastore.jpa.querydsl.internal.expressions.QueryDslExpression;
 import com.holonplatform.datastore.jpa.querydsl.internal.expressions.QueryDslResolutionContext;
@@ -34,7 +34,7 @@ import com.querydsl.core.types.ConstantImpl;
 @SuppressWarnings("rawtypes")
 @Priority(Integer.MAX_VALUE)
 public enum QueryDslCollectionExpressionResolver
-		implements QueryDslContextExpressionResolver<CollectionExpression, QueryDslExpression> {
+		implements QueryDslContextExpressionResolver<CollectionConstantExpression, QueryDslExpression> {
 
 	INSTANCE;
 
@@ -43,8 +43,8 @@ public enum QueryDslCollectionExpressionResolver
 	 * @see com.holonplatform.core.ExpressionResolver#getExpressionType()
 	 */
 	@Override
-	public Class<? extends CollectionExpression> getExpressionType() {
-		return CollectionExpression.class;
+	public Class<? extends CollectionConstantExpression> getExpressionType() {
+		return CollectionConstantExpression.class;
 	}
 
 	/*
@@ -63,7 +63,7 @@ public enum QueryDslCollectionExpressionResolver
 	 * com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslResolutionContext)
 	 */
 	@Override
-	public Optional<QueryDslExpression> resolve(CollectionExpression expression, QueryDslResolutionContext context)
+	public Optional<QueryDslExpression> resolve(CollectionConstantExpression expression, QueryDslResolutionContext context)
 			throws InvalidExpressionException {
 
 		// validate
