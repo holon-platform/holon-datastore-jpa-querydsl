@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -48,8 +50,8 @@
 		<connection>scm:git:https://github.com/holon-platform/holon-datastore-jpa-querydsl.git</connection>
 		<url>https://github.com/holon-platform/holon-datastore-jpa-querydsl</url>
 		<developerConnection>scm:git:https://github.com/holon-platform/holon-datastore-jpa-querydsl.git</developerConnection>
-	  <tag>HEAD</tag>
-  </scm>
+		<tag>HEAD</tag>
+	</scm>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -59,23 +61,23 @@
 
 		<!-- Holon JPA -->
 		<holon.jpa.version>5.2.0-SNAPSHOT</holon.jpa.version>
-
+		
 		<!-- QueryDSL -->
 		<querydsl.version>4.2.1</querydsl.version>
 
-		<!-- JPA -->
-		<hibernate.jpa.api.version>1.0.0.Final</hibernate.jpa.api.version>
+		<!-- JPA API -->
+		<jpa.api.version>2.2</jpa.api.version>
 
 		<!-- Test: H2 -->
 		<h2.version>1.4.196</h2.version>
 		<!-- Test: HikariCP -->
-		<hikaricp.version>2.7.7</hikaricp.version>
+		<hikaricp.version>3.1.0</hikaricp.version>
 		<!-- Test: Hibernate -->
-		<hibernate.version>5.2.13.Final</hibernate.version>
+		<hibernate.version>5.3.0.Final</hibernate.version>
 		<!-- Test: Eclipselink -->
 		<eclipselink.version>2.7.1</eclipselink.version>
 		<!-- Test: Spring -->
-		<spring.version>4.3.13.RELEASE</spring.version>
+		<spring.version>4.3.17.RELEASE</spring.version>
 		<!-- Test: slf4j -->
 		<slf4j.version>1.7.25</slf4j.version>
 
