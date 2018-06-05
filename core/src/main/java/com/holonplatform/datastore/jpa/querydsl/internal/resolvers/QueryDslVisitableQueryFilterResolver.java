@@ -21,6 +21,7 @@ import java.util.Optional;
 
 import javax.annotation.Priority;
 
+import com.holonplatform.core.ConstantConverterExpression;
 import com.holonplatform.core.Expression.InvalidExpressionException;
 import com.holonplatform.core.TypedExpression;
 import com.holonplatform.core.internal.query.QueryFilterVisitor;
@@ -38,7 +39,6 @@ import com.holonplatform.core.internal.query.filter.NotNullFilter;
 import com.holonplatform.core.internal.query.filter.NullFilter;
 import com.holonplatform.core.internal.query.filter.OrFilter;
 import com.holonplatform.core.internal.query.filter.StringMatchFilter;
-import com.holonplatform.core.query.ConstantExpression;
 import com.holonplatform.core.query.QueryFilter;
 import com.holonplatform.datastore.jpa.querydsl.internal.expressions.PredicateExpression;
 import com.holonplatform.datastore.jpa.querydsl.internal.expressions.QueryDslContextExpressionResolver;
@@ -211,8 +211,8 @@ public enum QueryDslVisitableQueryFilterResolver
 	 */
 	@Override
 	public <T> PredicateExpression visit(BetweenFilter<T> filter, QueryDslResolutionContext context) {
-		ConstantExpression<T> from = ConstantExpression.create(filter.getFromValue());
-		ConstantExpression<T> to = ConstantExpression.create(filter.getToValue());
+		ConstantConverterExpression<T, T> from = ConstantConverterExpression.create(filter.getFromValue());
+		ConstantConverterExpression<T, T> to = ConstantConverterExpression.create(filter.getToValue());
 		return PredicateExpression.create(Expressions.booleanOperation(Ops.BETWEEN,
 				context.resolveOrFail(filter.getLeftOperand(), QueryDslExpression.class).getExpression(),
 				context.resolveOrFail(from, QueryDslExpression.class).getExpression(),

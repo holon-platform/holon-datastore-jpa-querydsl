@@ -19,8 +19,8 @@ import java.util.Optional;
 
 import javax.annotation.Priority;
 
+import com.holonplatform.core.CollectionConstantExpression;
 import com.holonplatform.core.Expression.InvalidExpressionException;
-import com.holonplatform.core.query.CollectionConstantExpression;
 import com.holonplatform.datastore.jpa.querydsl.internal.expressions.QueryDslContextExpressionResolver;
 import com.holonplatform.datastore.jpa.querydsl.internal.expressions.QueryDslExpression;
 import com.holonplatform.datastore.jpa.querydsl.internal.expressions.QueryDslResolutionContext;

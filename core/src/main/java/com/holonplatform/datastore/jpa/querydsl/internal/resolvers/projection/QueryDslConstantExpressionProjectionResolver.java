@@ -21,7 +21,6 @@ import javax.annotation.Priority;
 
 import com.holonplatform.core.Expression.InvalidExpressionException;
 import com.holonplatform.core.query.ConstantExpression;
-import com.holonplatform.core.query.ConstantExpressionProjection;
 import com.holonplatform.datastore.jpa.querydsl.internal.expressions.DefaultQueryDslProjection;
 import com.holonplatform.datastore.jpa.querydsl.internal.expressions.QueryDslContextExpressionResolver;
 import com.holonplatform.datastore.jpa.querydsl.internal.expressions.QueryDslExpression;
@@ -29,7 +28,7 @@ import com.holonplatform.datastore.jpa.querydsl.internal.expressions.QueryDslPro
 import com.holonplatform.datastore.jpa.querydsl.internal.expressions.QueryDslResolutionContext;
 
 /**
- * {@link ConstantExpressionProjection} resolver.
+ * {@link ConstantExpression} projection resolver.
  *
  * @since 5.1.0
  */
