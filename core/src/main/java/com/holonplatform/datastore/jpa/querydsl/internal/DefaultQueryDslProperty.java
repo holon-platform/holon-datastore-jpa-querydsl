@@ -46,13 +46,12 @@ public class DefaultQueryDslProperty<T> extends AbstractPathProperty<T, QueryDsl
 	 * Constructor
 	 * @param path Property path (required not null)
 	 */
-	@SuppressWarnings("null")
 	public DefaultQueryDslProperty(Path<T> path) {
 		super(pathName(path), (path != null) ? path.getType() : null);
 		ObjectUtils.argumentNotNull(path, "Path must be not null");
 		this.path = path;
 		// set parent
-		if (path.getRoot() != null) {
+		if (path != null && path.getRoot() != null) {
 			parent(JpaTarget.of(path.getRoot().getType()));
 		}
 	}
