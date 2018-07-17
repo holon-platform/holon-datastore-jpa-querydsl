@@ -71,13 +71,13 @@
 		<!-- Test: H2 -->
 		<h2.version>1.4.196</h2.version>
 		<!-- Test: HikariCP -->
-		<hikaricp.version>3.1.0</hikaricp.version>
+		<hikaricp.version>3.2.0</hikaricp.version>
 		<!-- Test: Hibernate -->
-		<hibernate.version>5.3.0.Final</hibernate.version>
+		<hibernate.version>5.3.2.Final</hibernate.version>
 		<!-- Test: Eclipselink -->
-		<eclipselink.version>2.7.1</eclipselink.version>
+		<eclipselink.version>2.7.2</eclipselink.version>
 		<!-- Test: Spring -->
-		<spring.version>4.3.17.RELEASE</spring.version>
+		<spring.version>5.0.7.RELEASE</spring.version>
 		<!-- Test: slf4j -->
 		<slf4j.version>1.7.25</slf4j.version>
 
