@@ -1,2 +1,2 @@
-com.holonplatform.datastore.jpa.internal.querydsl.config.QueryDslRelationalTargetResolver
-com.holonplatform.datastore.jpa.internal.querydsl.config.QueryDslTargetResolver
+com.holonplatform.datastore.jpa.querydsl.internal.config.QueryDslRelationalTargetResolver
+com.holonplatform.datastore.jpa.querydsl.internal.config.QueryDslTargetResolver

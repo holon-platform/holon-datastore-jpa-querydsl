@@ -17,7 +17,7 @@ package com.holonplatform.datastore.jpa.querydsl;
 
 import com.holonplatform.core.internal.utils.ObjectUtils;
 import com.holonplatform.core.property.PathProperty;
-import com.holonplatform.datastore.jpa.internal.querydsl.DefaultQueryDslProperty;
+import com.holonplatform.datastore.jpa.querydsl.internal.DefaultQueryDslProperty;
 import com.querydsl.core.types.Path;
 
 /**
