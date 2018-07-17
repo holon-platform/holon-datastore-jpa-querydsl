@@ -15,7 +15,7 @@ _Copies of this document may be made for your own use and for distribution to ot
 
 == Introduction
 
-This module provides a set of link:http://www.querydsl.com[QueryDSL] integration features for the link:../../holon-datastore-jpa/overview.html[JPA Datastore] module.
+This module provides a set of link:https://github.com/querydsl/querydsl[QueryDSL^] integration features for the link:holon-datastore-jpa.html[JPA Datastore] module.
 
 IMPORTANT: The required QueryDSL version is *4.x* or higher.
 
@@ -71,7 +71,7 @@ See link:index.html#obtain-the-platform-artifacts[Obtain the platform artifacts]
 
 == Data targets
 
-The link:{apidir}/com/holonplatform/datastore/jpa/querydsl/QueryDslTarget.html[QueryDslTarget^] interface can be used to create a link:holon-core.html#DataTarget[DataTarget] using a QueryDSL `EntityPath`, which represents a JPA _entity_ root path.
+The link:{apidir}/com/holonplatform/datastore/jpa/querydsl/QueryDslTarget.html[QueryDslTarget^] interface can be used to create a link:holon-core.html#DataTarget[DataTarget^] using a QueryDSL `EntityPath`, which represents a JPA _entity_ root path.
 
 [source, java]
 ----
@@ -122,7 +122,7 @@ include::{examplesdir}/com/holonplatform/datastore/jpa/querydsl/examples/Example
 
 The following _starter_ artifacts are available to provide a quick project configuration setup using Maven dependency system:
 
-*1.* The *QueryDSL JPA starter using Hibernate* provides dependencies to the default link:holon-datastore-jpa.html#JPADatastoreSpringBootStarters[Holon JPA Datastore Spring Boot starter] using the *Hibernate ORM* as persistence provider, in addition to the Holon Platform QueryDSL integration dependencies.
+*1.* The *QueryDSL JPA starter using Hibernate* provides dependencies to the default link:holon-datastore-jpa.html#JPADatastoreSpringBootStarters[Holon JPA Datastore Spring Boot starter^] using the *Hibernate ORM* as persistence provider, in addition to the Holon Platform QueryDSL integration dependencies.
 
 _Maven coordinates_:
 [source, xml, subs="attributes+"]
@@ -132,7 +132,7 @@ _Maven coordinates_:
 <version>{revnumber}</version>
 ----
 
-*2.* The *QueryDSL JPA starter using Eclipselink* provides dependencies to the default link:holon-datastore-jpa.html#JPADatastoreSpringBootStarters[Holon JPA Datastore Spring Boot starter] using the *Eclipselink* as persistence provider, in addition to the Holon Platform QueryDSL integration dependencies.
+*2.* The *QueryDSL JPA starter using Eclipselink* provides dependencies to the default link:holon-datastore-jpa.html#JPADatastoreSpringBootStarters[Holon JPA Datastore Spring Boot starter^] using the *Eclipselink* as persistence provider, in addition to the Holon Platform QueryDSL integration dependencies.
 
 _Maven coordinates_:
 [source, xml, subs="attributes+"]
@@ -152,8 +152,8 @@ The logger name for the *JPA Datastore QueryDSL integration* module is `com.holo
 
 === Java
 
-The Holon Platform JPA Datastore QueryDSL module requires https://www.java.com[Java] *8* or higher.
+The Holon Platform JPA Datastore QueryDSL module requires https://www.java.com[Java^] *8* or higher.
 
 === QueryDSL
 
-https://github.com/querydsl/querydsl/tree/master/querydsl-jpa[QueryDSL JPA] version *4.x* is required and must be available in classpath to use the JPA Datastore QueryDSL module.
+https://github.com/querydsl/querydsl/tree/master/querydsl-jpa[QueryDSL JPA^] version *4.x* is required and must be available in classpath to use the JPA Datastore QueryDSL module.
