@@ -63,8 +63,8 @@ public enum QueryDslCollectionExpressionResolver
 	 * com.holonplatform.datastore.jpa.internal.querydsl.expressions.QueryDslResolutionContext)
 	 */
 	@Override
-	public Optional<QueryDslExpression> resolve(CollectionConstantExpression expression, QueryDslResolutionContext context)
-			throws InvalidExpressionException {
+	public Optional<QueryDslExpression> resolve(CollectionConstantExpression expression,
+			QueryDslResolutionContext context) throws InvalidExpressionException {
 
 		// validate
 		expression.validate();
