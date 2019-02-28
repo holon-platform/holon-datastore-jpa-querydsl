@@ -1,6 +1,6 @@
 # Holon Platform JPA Datastore - QueryDSL integration
 
-> Latest release: [5.2.0](#obtain-the-artifacts)
+> Latest release: [5.2.1](#obtain-the-artifacts)
 
 This module provides a set of [QueryDSL](http://www.querydsl.com) integration features for the [Holon Platform JPA Datastore module](https://github.com/holon-platform/holon-datastore-jpa).
 
@@ -52,7 +52,7 @@ _Maven BOM:_
     <dependency>
         <groupId>com.holon-platform.jpa</groupId>
         <artifactId>holon-datastore-jpa-querydsl-bom</artifactId>
-        <version>5.2.0</version>
+        <version>5.2.1</version>
         <type>pom</type>
         <scope>import</scope>
     </dependency>
