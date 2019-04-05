@@ -1,10 +1,12 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>com.holon-platform</groupId>
 		<artifactId>parent</artifactId>
-		<version>1.1.1</version>
+		<version>1.1.2</version>
 	</parent>
 
 	<groupId>com.holon-platform.jpa</groupId>
@@ -54,13 +56,10 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<!-- pre-releases package name -->
-		<bintray.package>holon-datastore-jpa-querydsl</bintray.package>
-
 		<!-- Holon core -->
-		<holon.core.version>5.2.1</holon.core.version>
+		<holon.core.version>5.2.2</holon.core.version>
 		<!-- Holon JPA -->
-		<holon.jpa.version>5.2.1</holon.jpa.version>
+		<holon.jpa.version>5.2.2</holon.jpa.version>
 
 		<!-- QueryDSL -->
 		<querydsl.version>4.2.1</querydsl.version>
@@ -73,7 +72,7 @@
 		<!-- Test: HikariCP -->
 		<hikaricp.version>3.3.1</hikaricp.version>
 		<!-- Test: Hibernate -->
-		<hibernate.version>5.4.1.Final</hibernate.version>
+		<hibernate.version>5.4.2.Final</hibernate.version>
 		<!-- Test: Eclipselink -->
 		<eclipselink.version>2.7.4</eclipselink.version>
 
@@ -113,7 +112,7 @@
 						<phase>package</phase>
 						<inherited>false</inherited>
 						<goals>
-							<goal>aggregate-jar</goal>
+							<goal>aggregate-no-fork</goal>
 						</goals>
 						<configuration>
 							<show>public</show>
