@@ -55,9 +55,9 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<!-- Holon core -->
-		<holon.core.version>5.2.3</holon.core.version>
+		<holon.core.version>5.3.0</holon.core.version>
 		<!-- Holon JPA -->
-		<holon.jpa.version>5.2.3</holon.jpa.version>
+		<holon.jpa.version>5.3.0</holon.jpa.version>
 
 		<!-- QueryDSL -->
 		<querydsl.version>4.2.1</querydsl.version>
@@ -70,7 +70,7 @@
 		<!-- Test: HikariCP -->
 		<hikaricp.version>3.3.1</hikaricp.version>
 		<!-- Test: Hibernate -->
-		<hibernate.version>5.4.2.Final</hibernate.version>
+		<hibernate.version>5.4.4.Final</hibernate.version>
 		<!-- Test: Eclipselink -->
 		<eclipselink.version>2.7.4</eclipselink.version>
 
