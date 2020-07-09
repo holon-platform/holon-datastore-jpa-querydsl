@@ -1,10 +1,12 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>com.holon-platform</groupId>
 		<artifactId>parent</artifactId>
-		<version>1.1.5</version>
+		<version>1.1.6</version>
 	</parent>
 
 	<groupId>com.holon-platform.jpa</groupId>
@@ -55,24 +57,24 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<!-- Holon core -->
-		<holon.core.version>5.4.0</holon.core.version>
+		<holon.core.version>5.5.0</holon.core.version>
 		<!-- Holon JPA -->
-		<holon.jpa.version>5.4.0</holon.jpa.version>
+		<holon.jpa.version>5.5.0</holon.jpa.version>
 
 		<!-- QueryDSL -->
-		<querydsl.version>4.2.2</querydsl.version>
+		<querydsl.version>4.3.1</querydsl.version>
 
 		<!-- JPA API -->
 		<jpa.api.version>2.2</jpa.api.version>
 
 		<!-- Test: H2 -->
-		<h2.version>1.4.198</h2.version>
+		<h2.version>1.4.200</h2.version>
 		<!-- Test: HikariCP -->
-		<hikaricp.version>3.4.1</hikaricp.version>
+		<hikaricp.version>3.4.5</hikaricp.version>
 		<!-- Test: Hibernate -->
-		<hibernate.version>5.4.10.Final</hibernate.version>
+		<hibernate.version>5.4.18.Final</hibernate.version>
 		<!-- Test: Eclipselink -->
-		<eclipselink.version>2.7.5</eclipselink.version>
+		<eclipselink.version>2.7.7</eclipselink.version>
 
 	</properties>
 
