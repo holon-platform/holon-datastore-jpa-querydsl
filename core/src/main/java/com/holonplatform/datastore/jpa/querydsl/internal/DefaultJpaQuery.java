@@ -99,9 +99,7 @@ import com.querydsl.jpa.impl.JPAUtil;
 
 /**
  * Default {@link JpaQuery} implementation.
- * 
  * @param <T> Query result type
- * 
  * @since 5.0.0
  */
 public class DefaultJpaQuery<T> implements JpaQuery<T> {
@@ -167,8 +165,8 @@ public class DefaultJpaQuery<T> implements JpaQuery<T> {
 	/*
 	 * (non-Javadoc)
 	 * @see
-	 * com.holonplatform.core.ExpressionResolver.ExpressionResolverBuilder#withExpressionResolver(com.holonplatform.core
-	 * .ExpressionResolver)
+	 * com.holonplatform.core.ExpressionResolver.ExpressionResolverBuilder#withExpressionResolver(com.holonplatform.
+	 * core .ExpressionResolver)
 	 */
 	@Override
 	public <E extends com.holonplatform.core.Expression, R extends com.holonplatform.core.Expression> JpaQuery<T> withExpressionResolver(
@@ -235,8 +233,8 @@ public class DefaultJpaQuery<T> implements JpaQuery<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see
-	 * com.holonplatform.core.datastore.DataTarget.DataTargetSupport#target(com.holonplatform.core.datastore.DataTarget)
+	 * @see com.holonplatform.core.datastore.DataTarget.DataTargetSupport#target(com.holonplatform.core.datastore.
+	 * DataTarget)
 	 */
 	@Override
 	public JpaQuery<T> target(DataTarget<?> target) {
@@ -354,7 +352,8 @@ public class DefaultJpaQuery<T> implements JpaQuery<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.holonplatform.datastore.jpa.querydsl.JpaQuery#innerJoin(com.querydsl.core.types.CollectionExpression)
+	 * @see
+	 * com.holonplatform.datastore.jpa.querydsl.JpaQuery#innerJoin(com.querydsl.core.types.CollectionExpression)
 	 */
 	@Override
 	public <P> JpaQuery<T> innerJoin(CollectionExpression<?, P> target) {
@@ -363,7 +362,8 @@ public class DefaultJpaQuery<T> implements JpaQuery<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.holonplatform.datastore.jpa.querydsl.JpaQuery#innerJoin(com.querydsl.core.types.CollectionExpression,
+	 * @see
+	 * com.holonplatform.datastore.jpa.querydsl.JpaQuery#innerJoin(com.querydsl.core.types.CollectionExpression,
 	 * com.querydsl.core.types.Path)
 	 */
 	@Override
@@ -525,7 +525,8 @@ public class DefaultJpaQuery<T> implements JpaQuery<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.holonplatform.datastore.jpa.querydsl.JpaQuery#rightJoin(com.querydsl.core.types.CollectionExpression)
+	 * @see
+	 * com.holonplatform.datastore.jpa.querydsl.JpaQuery#rightJoin(com.querydsl.core.types.CollectionExpression)
 	 */
 	@Override
 	public <P> JpaQuery<T> rightJoin(CollectionExpression<?, P> target) {
@@ -534,7 +535,8 @@ public class DefaultJpaQuery<T> implements JpaQuery<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.holonplatform.datastore.jpa.querydsl.JpaQuery#rightJoin(com.querydsl.core.types.CollectionExpression,
+	 * @see
+	 * com.holonplatform.datastore.jpa.querydsl.JpaQuery#rightJoin(com.querydsl.core.types.CollectionExpression,
 	 * com.querydsl.core.types.Path)
 	 */
 	@Override
@@ -1063,7 +1065,7 @@ public class DefaultJpaQuery<T> implements JpaQuery<T> {
 		operationContext.trace(queryString.replace('\n', ' '));
 
 		final Query query = entityManager.createQuery(queryString);
-		JPAUtil.setConstants(query, serializer.getConstantToLabel(), getMetadata().getParams());
+		JPAUtil.setConstants(query, serializer.getConstants(), getMetadata().getParams());
 
 		// check restrictions
 		if (modifiers != null && modifiers.isRestricting()) {

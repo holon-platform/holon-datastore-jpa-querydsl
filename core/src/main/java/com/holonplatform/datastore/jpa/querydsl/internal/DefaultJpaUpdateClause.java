@@ -38,7 +38,6 @@ import com.querydsl.jpa.impl.JPAUtil;
 
 /**
  * Default {@link JpaUpdateClause} implementation.
- *
  * @since 5.1.0
  */
 public class DefaultJpaUpdateClause implements JpaUpdateClause {
@@ -141,7 +140,7 @@ public class DefaultJpaUpdateClause implements JpaUpdateClause {
 
 			JPQLSerializer serializer = new JPQLSerializer(JPAProvider.getTemplates(entityManager), entityManager);
 			serializer.serializeForUpdate(queryMixin.getMetadata(), updates);
-			Map<Object, String> constants = serializer.getConstantToLabel();
+			List<Object> constants = serializer.getConstants();
 
 			// trace
 			final String queryString = serializer.toString();

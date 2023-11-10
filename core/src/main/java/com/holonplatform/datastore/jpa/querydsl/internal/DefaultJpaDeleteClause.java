@@ -15,7 +15,7 @@
  */
 package com.holonplatform.datastore.jpa.querydsl.internal;
 
-import java.util.Map;
+import java.util.List;
 
 import javax.persistence.Query;
 
@@ -71,7 +71,7 @@ public class DefaultJpaDeleteClause implements JpaDeleteClause {
 
 			JPQLSerializer serializer = new JPQLSerializer(JPAProvider.getTemplates(entityManager), entityManager);
 			serializer.serializeForDelete(queryMixin.getMetadata());
-			Map<Object, String> constants = serializer.getConstantToLabel();
+			List<Object> constants = serializer.getConstants();
 
 			// trace
 			final String queryString = serializer.toString();
